@@ -1,0 +1,27 @@
+{
+  "name": "crm-solution-server",
+  "version": "1.0.0",
+  "description": "CRM Solution Backend — complaints management API",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev":   "nodemon src/index.js",
+    "start": "node src/index.js",
+    "seed":  "node src/seed/seed.js"
+  },
+  "nodemonConfig": {
+    "ignore": ["*.db", "*.db-journal", "*.db-wal", "*.db-shm"]
+  },
+  "dependencies": {
+    "bcryptjs":       "^2.4.3",
+    "better-sqlite3": "^12.10.0",
+    "cors":           "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken":   "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
