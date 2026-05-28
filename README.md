@@ -6,6 +6,27 @@ Your job is to identify the gaps, decide what matters most, and build it.
 
 ---
 
+## Table of contents
+
+1. [What the app does](#what-the-app-does-right-now)
+2. [The advisor's workflow](#the-advisors-workflow)
+3. [Your task](#your-task)
+4. [Known issues — fix these first](#known-issues--fix-these-first)
+5. [Prerequisites](#prerequisites)
+6. [On the day](#on-the-day)
+7. [Project structure](#project-structure)
+8. [Setup and running the app](#setup-and-running-the-app)
+9. [Seed data](#seed-data)
+10. [Comment codes by product line](#comment-codes-by-product-line)
+11. [API reference](#api-reference)
+12. [Database schema](#database-schema)
+13. [Viewing the database visually](#viewing-the-database-visually)
+14. [Environment variables](#environment-variables)
+15. [Key implementation notes](#key-implementation-notes)
+16. [Case ordering](#case-ordering)
+
+---
+
 ## What the app does (right now)
 
 The application has two sides:
@@ -90,28 +111,6 @@ The app has four deliberate bugs. Before adding anything new, get the existing c
 
 ---
 
-## On the day
-
-### Working as a team
-
-Four people on one codebase can get messy fast. A few things that help:
-
-- **Divide by feature, not by file.** Agree on who is building what before anyone starts coding. If two people are both editing `Dashboard.jsx` at the same time, you will have conflicts.
-- **Use branches.** Create a branch for each feature (`git checkout -b feature/my-feature`) and merge back to `main` when it's working.
-- **Fix the known issues together first.** Do this as a group before splitting off — it's the fastest way to get everyone familiar with the codebase at the same time.
-
-### Presentation
-
-At the end of the session you will give a short demo of your application. You should cover:
-
-- **What you built** — walk through the features you added, live in the browser.
-- **Why you chose them** — out of everything you could have built, why did these feel most important for CleanWave advisors?
-- **What you'd add next** — if you had another hour, what would it be and why?
-
-The emphasis is on the decisions you made, not just what works. A thoughtful explanation of a half-finished feature is worth more than a finished one nobody can explain.
-
----
-
 ## Prerequisites
 
 Install all of the following before running the project.
@@ -167,6 +166,68 @@ Install via `Ctrl+Shift+X` → search the name → Install.
 
 ---
 
+## On the day
+
+### Setting up your team repository
+
+Do this once at the start — **one person per team** completes steps 1–3, then everyone else does step 4 & 5.
+
+**1. Fork the repo (one person only)**
+
+1. Go to the repository on GitHub
+2. Click the **Fork** button in the top-right corner
+3. Leave all settings as default and click **Create fork**
+4. You now have your own copy of the repo under your GitHub account — this is where your team will do all their work
+
+**2. Add your teammates as collaborators (one person only)**
+
+1. On your fork, go to **Settings → Collaborators**
+2. Click **Add people**
+3. Search for each teammate's GitHub username and invite them
+4. Each teammate will receive an email invitation — they must accept it before they can push
+
+**3. Share the fork URL with your team**
+
+Copy the URL of your fork (e.g. `https://github.com/your-username/repo-name`) and send it to your teammates.
+
+**4. Clone the fork (everyone, including the person who forked it)**
+
+```bash
+git clone https://github.com/<fork-owners-username>/<repo-name>.git
+cd <repo-name>
+```
+
+Everyone should be cloning the **fork**, not the original repo.
+
+**5. Verify you're set up correctly**
+
+```bash
+git remote -v
+# Should show the fork URL, not the original repo URL
+```
+
+---
+
+### Working as a team
+
+Four people on one codebase can get messy fast. A few things that help:
+
+- **Divide by feature, not by file.** Agree on who is building what before anyone starts coding. If two people are both editing `Dashboard.jsx` at the same time, you will have conflicts.
+- **Use branches.** Create a branch for each feature (`git checkout -b feature/my-feature`) and merge back to `main` when it's working.
+- **Fix the known issues together first.** Do this as a group before splitting off — it's the fastest way to get everyone familiar with the codebase at the same time.
+
+### Presentation
+
+At the end of the session you will give a short demo of your application. You should cover:
+
+- **What you built** — walk through the features you added, live in the browser.
+- **Why you chose them** — out of everything you could have built, why did these feel most important for CleanWave advisors?
+- **What you'd add next** — if you had another hour, what would it be and why?
+
+The emphasis is on the decisions you made, not just what works. A thoughtful explanation of a half-finished feature is worth more than a finished one nobody can explain.
+
+---
+
 ## Project structure
 
 ```
@@ -213,14 +274,9 @@ UKITInterns - CRM/
 
 ## Setup and running the app
 
-### 1. Clone the repository
+Once you have cloned your team's fork (see [On the day](#on-the-day)), follow these steps to get the app running.
 
-```bash
-git clone https://github.com/Jordeatsu/UKITInterns---CRM
-cd "UKITInterns - CRM"
-```
-
-### 2. Seed the database with sample data
+### 1. Seed the database with sample data
 
 Before starting for the first time, populate the database with CleanWave complaints:
 
@@ -232,7 +288,7 @@ npm run seed
 
 This creates 40 sample cases, 24 contacts, the full product catalogue, and the advisor accounts. See [Seed data](#seed-data) for login credentials.
 
-### 3. Start the application (Production)
+### 2. Start the application (Production)
 
 From the `workshop/` directory:
 
@@ -254,7 +310,7 @@ This will:
 
 > **LAN access:** When `start.sh` runs it will also print a `LAN:` URL (e.g. `http://192.168.1.x:3002`). Anyone on the same Wi-Fi network can use that URL to access the app from their own device.
 
-### 4. Stop the application
+### 3. Stop the application
 
 ```bash
 bash stop.sh
@@ -374,7 +430,7 @@ That said, there is a natural logical mapping you can follow as a guide:
 
 These are guidelines, not rules — an advisor can apply any valid code for the product regardless of the original complaint type.
 
-> See the **Database schema → comment_codes** section above for the full list of code descriptions stored in the database.
+> See the **Database schema → comment_codes** section below for the full list of code descriptions stored in the database.
 
 ---
 
