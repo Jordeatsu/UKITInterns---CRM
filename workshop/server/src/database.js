@@ -1,16 +1,14 @@
-const Database = require('better-sqlite3');
-const path     = require('path');
+const Database = require("better-sqlite3");
+const path = require("path");
 
 // Resolve the database file path — stored in the server root, not inside src/
-const DB_PATH = process.env.DB_PATH
-  ? path.resolve(process.env.DB_PATH)
-  : path.join(__dirname, '..', 'crm.db');
+const DB_PATH = process.env.DB_PATH ? path.resolve(process.env.DB_PATH) : path.join(__dirname, "..", "crm.db");
 
 // Open (or create) the SQLite database file
 const db = new Database(DB_PATH);
 
 // Enable foreign key enforcement — SQLite ignores FK constraints by default
-db.pragma('foreign_keys = ON');
+db.pragma("foreign_keys = ON");
 
 // ── Create tables ─────────────────────────────────────────────────────────────
 // Using IF NOT EXISTS means this is safe to run on every server start.
@@ -144,16 +142,16 @@ console.log(`Database ready: ${DB_PATH}`);
 
 // Add complaint_type_id to cases if this is an existing database that pre-dates the column
 try {
-  db.prepare('ALTER TABLE cases ADD COLUMN complaint_type_id INTEGER REFERENCES complaint_types(id)').run();
+    db.prepare("ALTER TABLE cases ADD COLUMN complaint_type_id INTEGER REFERENCES complaint_types(id)").run();
 } catch (_) {
-  // Column already exists — safe to ignore
+    // Column already exists — safe to ignore
 }
 
 // Add case_product_id to case_comment_codes to correctly link a comment code to its product on a case
 try {
-  db.prepare('ALTER TABLE case_comment_codes ADD COLUMN case_product_id INTEGER REFERENCES case_products(id) ON DELETE CASCADE').run();
+    db.prepare("ALTER TABLE case_comment_codes ADD COLUMN case_product_id INTEGER REFERENCES case_products(id) ON DELETE CASCADE").run();
 } catch (_) {
-  // Column already exists — safe to ignore
+    // Column already exists — safe to ignore
 }
 
 module.exports = db;

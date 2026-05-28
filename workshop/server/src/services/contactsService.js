@@ -1,7 +1,9 @@
-const db = require('../database');
+const db = require("../database");
 
 function getAll() {
-  return db.prepare(`
+    return db
+        .prepare(
+            `
     SELECT
       co.id,
       co.name,
@@ -15,14 +17,18 @@ function getAll() {
     LEFT JOIN cases c ON c.contact_id = co.id
     GROUP BY co.id
     ORDER BY last_case_at DESC
-  `).all();
+  `,
+        )
+        .all();
 }
 
 function getById(id) {
-  const contact = db.prepare('SELECT * FROM contacts WHERE id = ?').get(id);
-  if (!contact) return null;
+    const contact = db.prepare("SELECT * FROM contacts WHERE id = ?").get(id);
+    if (!contact) return null;
 
-  const cases = db.prepare(`
+    const cases = db
+        .prepare(
+            `
     SELECT
       c.id,
       c.reference_number,
@@ -42,29 +48,31 @@ function getById(id) {
     WHERE c.contact_id = ?
     GROUP BY c.id
     ORDER BY c.created_at DESC
-  `).all(id);
+  `,
+        )
+        .all(id);
 
-  return { ...contact, cases };
+    return { ...contact, cases };
 }
 
 function updateContact(id, { name, email, phone }) {
-  const stmt = db.prepare(`
+    const stmt = db.prepare(`
     UPDATE contacts SET name = ?, email = ?, phone = ? WHERE id = ?
   `);
-  const result = stmt.run(name, email, phone ?? null, id);
-  if (result.changes === 0) return null;
-  return db.prepare('SELECT * FROM contacts WHERE id = ?').get(id);
+    const result = stmt.run(name, email, phone ?? null, id);
+    if (result.changes === 0) return null;
+    return db.prepare("SELECT * FROM contacts WHERE id = ?").get(id);
 }
 
 function mergeContacts(primaryId, mergeIds) {
-  const merge = db.transaction(() => {
-    for (const srcId of mergeIds) {
-      db.prepare('UPDATE cases SET contact_id = ? WHERE contact_id = ?').run(primaryId, srcId);
-      db.prepare('DELETE FROM contacts WHERE id = ?').run(srcId);
-    }
-  });
-  merge();
-  return getById(primaryId);
+    const merge = db.transaction(() => {
+        for (const srcId of mergeIds) {
+            db.prepare("UPDATE cases SET contact_id = ? WHERE contact_id = ?").run(primaryId, srcId);
+            db.prepare("DELETE FROM contacts WHERE id = ?").run(srcId);
+        }
+    });
+    merge();
+    return getById(primaryId);
 }
 
 module.exports = { getAll, getById, updateContact, mergeContacts };
