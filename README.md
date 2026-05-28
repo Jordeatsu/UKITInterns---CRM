@@ -36,11 +36,44 @@ A typical complaint is handled in roughly this sequence:
 2. **Advisor picks it up** — they read the details: what product, what went wrong, what the customer said.
 3. **Investigation** — they may update the priority, assign it to themselves, add internal notes, or link additional products.
 4. **Resolution** — they contact the customer, action the complaint, and eventually close the case.
-5. **Customer replies** — if the customer sends a follow-up message, the case automatically reopens and returns to the queue.
 
 At any point, an advisor can see the full history of a case — what changed, when, and who changed it.
 
-Right now the app only covers step 1 (submitting) and a basic read-only view. Steps 2–5 are what you're building.
+Right now the app only covers step 1 (submitting) and a basic read-only view. Steps 2–4 are what you're building plus any additional features you may think of.
+
+---
+
+## Your task
+
+Your goal is to turn this skeleton into a CRM that advisors can genuinely use to manage complaints from start to finish. Think of it as a real product handoff — your job is to make it functional, and then to think like a product team about what would make it even better.
+
+The day has two parts:
+
+### Part 1 — Get the core working
+
+The list below covers the minimum an advisor needs to actually do their job. Fix the four bugs first (see the next section), then work through this checklist. Divide the items between your team early — if two people edit the same file at the same time you will have merge conflicts.
+
+- [ ] Fix the four known bugs (see below)
+- [ ] An advisor can **update the status** of a case (open → in progress → closed)
+- [ ] An advisor can **assign** a case to themselves or a colleague
+- [ ] An advisor can **change the priority** of a case
+- [ ] An advisor can **add the products** involved in a complaint to the case
+- [ ] An advisor can **apply comment codes** to a product to categorise the fault
+- [ ] An advisor can **write internal notes** on a case, visible only to advisors
+- [ ] The **dashboard shows summary stats** — total cases, how many are open, in progress, closed, and so on
+
+### Part 2 — Come up with your own ideas
+
+Once Part 1 is working (or in parallel, if your team is big enough), think about what would make the product genuinely more useful. You know the scenario — what is still missing?
+
+A few questions to get you thinking:
+
+- How would a customer check the status of their own case after submitting it?
+- How would an advisor see only the cases assigned to *them*, rather than the full queue?
+- What if the customer wanted to send a follow-up message to the advisor on their case?
+- How would a manager understand how the team is performing?
+
+These are prompts to spark ideas, not a feature list to copy. You might build one of these, something else entirely, or a combination — that decision is yours.
 
 ---
 
@@ -139,7 +172,6 @@ Install via `Ctrl+Shift+X` → search the name → Install.
 ```
 UKITInterns - CRM/
 ├── README.md
-├── solution/                   ← complete reference implementation (don't peek too early!)
 └── workshop/                   ← your starting point — work in here
     ├── FEATURES.md             ← list of features to consider building
     ├── start.sh                ← install, build, and start everything
@@ -184,7 +216,7 @@ UKITInterns - CRM/
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Jordeatsu/UKITInterns---CRM
 cd "UKITInterns - CRM"
 ```
 
@@ -200,7 +232,7 @@ npm run seed
 
 This creates 40 sample cases, 24 contacts, the full product catalogue, and the advisor accounts. See [Seed data](#seed-data) for login credentials.
 
-### 3. Start the application
+### 3. Start the application (Production)
 
 From the `workshop/` directory:
 
@@ -361,29 +393,15 @@ The base URL for all API routes is `/api`. Routes marked **Public** require no a
 | Method | Path | Auth | Description |
 |---|---|---|---|
 | `POST` | `/api/cases` | Public | Submit a new case |
-| `GET` | `/api/cases/track/:referenceNumber` | Public | Look up a single case by reference number |
-| `GET` | `/api/cases/track/by-contact` | Public | Look up all cases for a contact by name + email |
-| `GET` | `/api/cases/:id/messages` | Public | Get messages on a case (consumer view) |
-| `POST` | `/api/cases/:id/consumer-messages` | Public | Consumer sends a message |
 | `GET` | `/api/cases` | Protected | List cases — supports `?status=`, `?search=`, `?assigned_to=`, `?excludeClosed=true`, `?page=`, `?limit=` |
 | `GET` | `/api/cases/:id` | Protected | Full case details including products, comment codes, notes |
 | `PATCH` | `/api/cases/:id` | Protected | Update status, priority, or assigned\_to |
 | `GET` | `/api/cases/:id/notes` | Protected | Get advisor notes |
 | `POST` | `/api/cases/:id/notes` | Protected | Add an advisor note |
-| `GET` | `/api/cases/:id/history` | Protected | Audit trail of field changes |
 | `POST` | `/api/cases/:id/products` | Protected | Link a product to a case |
 | `DELETE` | `/api/cases/:id/products/:caseProductId` | Protected | Remove a product from a case |
 | `POST` | `/api/cases/:id/comment-codes` | Protected | Apply a comment code to a case product |
 | `DELETE` | `/api/cases/:id/comment-codes/:cccId` | Protected | Remove an applied comment code |
-| `POST` | `/api/cases/:id/messages` | Protected | Advisor sends a message |
-
-### Contacts
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/contacts` | Protected | List all contacts with case counts |
-| `GET` | `/api/contacts/:id` | Protected | Contact detail with all their cases |
-| `PATCH` | `/api/contacts/:id` | Protected | Update contact name, email, or phone |
 
 ### Products & comment codes
 
@@ -397,19 +415,6 @@ The base URL for all API routes is `/api`. Routes marked **Public** require no a
 | Method | Path | Auth | Description |
 |---|---|---|---|
 | `GET` | `/api/complaint-types` | Public | List all complaint types |
-
-### Dashboard
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/dashboard` | Protected | Summary counts: total, open, in progress, closed, reopened, recent |
-| `GET` | `/api/dashboard/analytics` | Protected | Cases by complaint type + daily submissions (last 30 days) |
-
-### Canned responses
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/canned-responses` | Protected | List all pre-written message templates |
 
 ---
 
@@ -435,10 +440,7 @@ The arrows below show which tables reference (point to) which other tables:
 
 ```
 complaint_types ──┐
-contacts        ──┴──► cases ──────────────────────────► case_history
-                          │
-                          ├──► case_notes
-                          ├──► case_messages
+contacts        ──┴──► cases ──────────► case_notes
                           │
                           └──► case_products ──────────► case_comment_codes
                                     │                           │
@@ -452,7 +454,6 @@ contacts        ──┴──► cases ─────────────
                                           are valid per product)
 
 advisors         (standalone — used for login only)
-canned_responses (standalone — pre-written message templates)
 ```
 
 ---
@@ -669,21 +670,6 @@ Records which comment codes an advisor has applied to a specific product on a ca
 | `case_id` | INTEGER | **Foreign key** → `cases.id` |
 | `case_product_id` | INTEGER | **Foreign key** → `case_products.id` — identifies which product on the case the code belongs to |
 | `comment_code_id` | INTEGER | **Foreign key** → `comment_codes.id` |
-
----
-
-### `canned_responses`
-
-Pre-written message templates that advisors can insert into the message composer with one click. These are managed directly in the database — there is no UI for adding or editing them.
-
-| Column | Type | Notes |
-|---|---|---|
-| `id` | INTEGER | Primary key, auto-increment |
-| `title` | TEXT | Short title shown in the picker, e.g. `Acknowledge receipt` |
-| `content` | TEXT | Full message text |
-| `created_at` | DATETIME | Set automatically on insert |
-
-Eight templates are seeded automatically: *Acknowledge receipt*, *Request more information*, *Escalation notice*, *Resolution confirmation*, *Awaiting callback*, *Case update*, *Request for evidence*, and *Apology*.
 
 ---
 

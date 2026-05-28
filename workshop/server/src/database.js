@@ -138,34 +138,9 @@ db.exec(`
     FOREIGN KEY (case_id) REFERENCES cases(id) ON DELETE CASCADE
   );
 
-  -- Canned responses: pre-written message templates for advisors
-  CREATE TABLE IF NOT EXISTS canned_responses (
-    id         INTEGER PRIMARY KEY AUTOINCREMENT,
-    title      TEXT NOT NULL,
-    content    TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-
 `);
 
 console.log(`Database ready: ${DB_PATH}`);
-
-// Seed canned responses if the table is empty
-const cannedCount = db.prepare('SELECT COUNT(*) AS count FROM canned_responses').get().count;
-if (cannedCount === 0) {
-  const insertCanned = db.prepare('INSERT INTO canned_responses (title, content) VALUES (?, ?)');
-  const seedCanned = db.transaction(() => {
-    insertCanned.run('Acknowledge receipt', 'Thank you for getting in touch. We have received your case and will be in contact with you shortly.');
-    insertCanned.run('Request more information', 'Thank you for your patience. To help us resolve your case, could you please provide further details about the issue you have experienced?');
-    insertCanned.run('Escalation notice', 'We understand the importance of your case and have escalated it to our specialist team. We aim to update you within 2 business days.');
-    insertCanned.run('Resolution confirmation', 'We are pleased to confirm that your case has been resolved. Please do not hesitate to contact us again if you require any further assistance.');
-    insertCanned.run('Awaiting callback', 'We attempted to contact you regarding your case but were unable to reach you. Please reply to this message with a convenient time for us to call you back.');
-    insertCanned.run('Case update', 'We wanted to provide you with an update on your case. Our team is actively reviewing your complaint and we will be in touch with a full response very soon.');
-    insertCanned.run('Request for evidence', 'To progress your case, it would be helpful if you could provide any supporting documentation, photographs, or evidence relating to your complaint.');
-    insertCanned.run('Apology', 'We sincerely apologise for the inconvenience you have experienced. Your feedback is important to us and we are committed to resolving this matter as quickly as possible.');
-  });
-  seedCanned();
-}
 
 // Add complaint_type_id to cases if this is an existing database that pre-dates the column
 try {

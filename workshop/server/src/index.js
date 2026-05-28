@@ -11,7 +11,6 @@ const commentCodesRoutes     = require('./routes/commentCodes');
 const dashboardRoutes        = require('./routes/dashboard');
 const complaintTypesRoutes   = require('./routes/complaintTypes');
 const contactsRoutes         = require('./routes/contacts');
-const cannedResponsesRoutes  = require('./routes/cannedResponses');
 
 const app  = express();
 const PORT = process.env.PORT || 5002;
@@ -31,7 +30,6 @@ app.use('/api/comment-codes',    commentCodesRoutes);
 app.use('/api/complaint-types',  complaintTypesRoutes);
 app.use('/api/dashboard',        dashboardRoutes);
 app.use('/api/contacts',         contactsRoutes);
-app.use('/api/canned-responses', cannedResponsesRoutes);
 
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
