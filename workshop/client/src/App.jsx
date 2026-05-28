@@ -6,6 +6,7 @@ import Login from "./advisor/Login";
 import AdvisorLayout from "./advisor/AdvisorLayout";
 import Dashboard from "./advisor/Dashboard";
 import CaseDetail from "./advisor/CaseDetail";
+import NotFound from "./shared/NotFound";
 import { useAuth } from "./context/AuthContext";
 
 function ProtectedRoute({ children }) {
@@ -35,6 +36,7 @@ export default function App() {
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="cases/:id" element={<CaseDetail />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );

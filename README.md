@@ -24,6 +24,7 @@ Your job is to identify the gaps, decide what matters most, and build it.
 14. [Environment variables](#environment-variables)
 15. [Key implementation notes](#key-implementation-notes)
 16. [Case ordering](#case-ordering)
+17. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -154,7 +155,15 @@ bash --version
 # GNU bash, version 5.x.x
 ```
 
-### 5. Recommended VS Code Extensions
+### 5. GitHub Desktop (optional)
+
+If you prefer a graphical interface for Git over the command line, GitHub Desktop handles cloning, branching, committing, and opening pull requests without typing any `git` commands.
+
+> https://desktop.github.com
+
+GitHub Desktop includes its own bundled Git, but you should still install Git separately (step 3) so that the terminal commands used to run the app also have access to it.
+
+### 6. Recommended VS Code Extensions
 
 | Extension | Publisher | Purpose |
 |---|---|---|
@@ -192,19 +201,33 @@ Copy the URL of your fork (e.g. `https://github.com/your-username/repo-name`) an
 
 **4. Clone the fork (everyone, including the person who forked it)**
 
+Everyone should be cloning the **fork**, not the original repo.
+
+**Terminal:**
+
 ```bash
 git clone https://github.com/<fork-owners-username>/<repo-name>.git
 cd <repo-name>
 ```
 
-Everyone should be cloning the **fork**, not the original repo.
+**GitHub Desktop:**
+
+1. Open GitHub Desktop
+2. Go to **File → Clone repository**
+3. Click the **URL** tab
+4. Paste the fork URL and choose a local path
+5. Click **Clone**
 
 **5. Verify you're set up correctly**
+
+**Terminal:**
 
 ```bash
 git remote -v
 # Should show the fork URL, not the original repo URL
 ```
+
+**GitHub Desktop:** Go to **Repository → Repository settings → Remotes** — the URL shown should be your fork, not the original.
 
 ---
 
@@ -213,8 +236,70 @@ git remote -v
 Four people on one codebase can get messy fast. A few things that help:
 
 - **Divide by feature, not by file.** Agree on who is building what before anyone starts coding. If two people are both editing `Dashboard.jsx` at the same time, you will have conflicts.
-- **Use branches.** Create a branch for each feature (`git checkout -b feature/my-feature`) and merge back to `main` when it's working.
+- **Use branches.** Create a branch for each feature and merge back to `main` when it's working. In the terminal: `git checkout -b feature/your-name/feature-name`. In GitHub Desktop: **Branch → New branch**.
 - **Fix the known issues together first.** Do this as a group before splitting off — it's the fastest way to get everyone familiar with the codebase at the same time.
+
+### Branches, commits, and pull requests
+
+This matters beyond just keeping the code tidy — it is how your work will be reviewed.
+
+**Branches protect `main`.** Your `main` branch is your working product. Nobody should push directly to it. Build every feature or bug fix on its own branch, then merge it in via a pull request once it works. That way `main` is always in a state you could demo.
+
+**Commits tell a story.** Each commit should capture one coherent piece of work — a bug fixed, a component added, a query written. A commit message like `"add status dropdown to CaseDetail"` is useful; `"stuff"` or a single 800-line commit at the end of the day is not. Small, well-described commits make it easy to see what you built and why.
+
+**Pull requests are your paper trail.** When your branch is ready, open a pull request from your branch into `main`. This shows the full diff of your changes. Even if nobody reviews it before you merge, the PR history gives a clear record of who built what and when.
+
+**Terminal:**
+
+```bash
+git checkout -b feature/alice/status-update   # create your branch
+# ...write code, test it...
+git add -p                                     # stage changes in small chunks
+git commit -m "add status dropdown to CaseDetail"
+git push origin feature/alice/status-update   # push to GitHub
+# Then open a Pull Request on GitHub: your branch → main
+```
+
+**GitHub Desktop:**
+
+1. Click **Current branch → New branch** and name it `feature/alice/status-update`
+2. Write your code in VS Code
+3. In the **Changes** panel, review your edits — untick any files you are not ready to commit yet
+4. Write a short summary (e.g. `add status dropdown to CaseDetail`) and click **Commit to feature/alice/...**
+5. Repeat steps 3–4 for each small piece of work as you go
+6. Click **Publish branch** (first time) or **Push origin** to send your commits to GitHub
+7. Click **Create Pull Request** — GitHub will open in the browser so you can open the PR
+
+> **Why this is being looked at:** The commit history and pull requests on your fork are part of how individual contributions will be reviewed. A single commit with everything in it makes it very hard to see who did what and how they approached the problem. Lots of small, focused commits show your thinking as you go.
+
+### Resolving merge conflicts
+
+If two people edit the same lines in the same file on different branches, Git cannot automatically merge them. You will see this message when you try to merge or pull:
+
+```
+CONFLICT (content): Merge conflict in src/advisor/Dashboard.jsx
+```
+
+VS Code highlights the conflicting section with three markers:
+
+```
+<<<<<<< HEAD  (your version)
+const title = 'My Dashboard';
+=======
+const title = 'Cases Dashboard';
+>>>>>>> feature/bob/dashboard-title  (their version)
+```
+
+To resolve it:
+
+1. Decide which version is correct — or write a combined version
+2. Delete the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`) and the version you do not want
+3. Save the file
+4. Stage the resolved file and commit
+
+VS Code also has a built-in merge editor — when a conflict is open, click **Resolve in Merge Editor** to get a side-by-side view with **Accept Current**, **Accept Incoming**, and **Accept Both** buttons.
+
+The best way to minimise conflicts is to keep branches short-lived, merge back to `main` often, and pull the latest `main` into your branch before you start a new piece of work.
 
 ### Presentation
 
@@ -269,6 +354,29 @@ UKITInterns - CRM/
             └── services/
                 └── api.js      ← all fetch calls to the backend API
 ```
+
+### What's safe to edit
+
+Most of your work will live in these areas — feel free to create new files here or modify existing ones:
+
+| Area | What goes here |
+|---|---|
+| `client/src/advisor/` | Advisor portal pages |
+| `client/src/consumer/` | Consumer portal pages |
+| `client/src/services/api.js` | API call functions |
+| `server/src/routes/` | New API routes |
+| `server/src/controllers/` | Request/response handling |
+| `server/src/services/` | Business logic and SQL queries |
+
+**Be careful with these files** — they are shared infrastructure, and a mistake here can break things for the whole team:
+
+| File | Why to be careful |
+|---|---|
+| `server/src/database.js` | Defines the database tables — changes here only take effect on a fresh database, not the existing one |
+| `server/seed/seed.js` | Populates the database — changes only take effect after a full reset |
+| `server/src/middleware/auth.js` | JWT authentication — breaking this locks everyone out of the advisor portal |
+| `server/src/.env` | Environment config — the defaults work fine for the workshop, no changes needed |
+| `client/src/context/AuthContext.jsx` | Stores the login token in memory — editing this usually breaks the login flow |
 
 ---
 
@@ -339,6 +447,18 @@ npm run dev
 cd workshop/client
 npm run dev
 ```
+
+### Resetting the database
+
+If the database gets into a bad state — corrupt data, a failed migration, or you just want a clean slate — delete the file and re-seed:
+
+```bash
+rm workshop/server/crm.db
+cd workshop/server
+npm run seed
+```
+
+This wipes everything and rebuilds with the original 40 sample cases. You will lose any data added during the session.
 
 ---
 
@@ -817,3 +937,53 @@ The `due_date` field (computed from `created_at` + SLA hours) is returned on eac
 | Low | 168 hours (7 days) |
 
 These are the windows within which an advisor should aim to respond. A case past its due date should be treated as urgent regardless of its priority label.
+
+---
+
+## Troubleshooting
+
+### Port already in use
+
+If `start.sh` or `dev-start.sh` fails with `address already in use` or `EADDRINUSE`, something is already running on port 5002 or 3002. Run `bash stop.sh` first, then try again. If that does not clear it:
+
+**Mac / Linux / Git Bash:**
+
+```bash
+lsof -ti :5002 | xargs kill -9
+lsof -ti :3002 | xargs kill -9
+```
+
+**Windows (Command Prompt or PowerShell):**
+
+```cmd
+netstat -ano | findstr :5002
+# Note the PID in the last column, then run:
+taskkill /F /PID <PID>
+```
+
+Alternatively on Windows, open Task Manager → Details tab → find the `node.exe` process and click **End task**.
+
+### White screen or "Failed to compile"
+
+Check the terminal running the client — there will be a specific error with a file name and line number. Fix the error, save the file, and the browser will reload automatically (in dev mode).
+
+### "Cannot find module" after pulling changes
+
+Someone on your team added a new package. Run `npm install` in both directories to pick it up:
+
+```bash
+cd workshop/server && npm install
+cd ../client && npm install
+```
+
+### Changes not showing up
+
+In production mode (`start.sh`), the client is a pre-built static bundle — it will not update automatically. Either run `bash build.sh` from `workshop/` to rebuild, or switch to dev mode (`bash dev-start.sh`) which updates on every save.
+
+### "Failed to load case" or 401 errors everywhere
+
+Your JWT has expired (they last 24 hours). Log out and log back in.
+
+### Database errors on startup
+
+The database file may be corrupted or out of date. See [Resetting the database](#resetting-the-database) for how to wipe and re-seed it cleanly.
