@@ -88,22 +88,22 @@ cd "$ROOT_DIR/client"
 npm run build
 ok "Client built"
 
-step "Clearing ports 3002 and 5002..."
-kill_port 3002
-kill_port 5002
+step "Clearing ports 3008 and 5008..."
+kill_port 3008
+kill_port 5008
 ok "Ports clear"
 
-step "Starting API server on :5002..."
+step "Starting API server on :5008..."
 cd "$ROOT_DIR/server"
 if command -v nohup &>/dev/null; then
-    nohup env PORT=5002 NODE_ENV=production npm start > "$ROOT_DIR/logs/server.log" 2>&1 &
+    nohup env PORT=5008 NODE_ENV=production npm start > "$ROOT_DIR/logs/server.log" 2>&1 &
 else
-    env PORT=5002 NODE_ENV=production npm start > "$ROOT_DIR/logs/server.log" 2>&1 &
+    env PORT=5008 NODE_ENV=production npm start > "$ROOT_DIR/logs/server.log" 2>&1 &
 fi
 echo $! > "$ROOT_DIR/logs/server.pid"
 ok "API server started"
 
-step "Serving client on :3002..."
+step "Serving client on :3008..."
 cd "$ROOT_DIR/client"
 if command -v nohup &>/dev/null; then
     nohup npm run preview > "$ROOT_DIR/logs/client.log" 2>&1 &
@@ -117,9 +117,9 @@ printf "\n"; hr
 printf "  ${BOLD}${GREEN}  ✓  CRM Workshop is running!${RESET}\n"
 hr
 printf "\n"
-urlrow  "App"   "http://localhost:3002"
-urlrow  "LAN"   "http://$IP:3002"
-urlrow  "API"   "http://localhost:5002/api"
+urlrow  "App"   "http://localhost:3008"
+urlrow  "LAN"   "http://$IP:3008"
+urlrow  "API"   "http://localhost:5008/api"
 printf "\n"
 inforow "Logs"  "logs/server.log  ·  logs/client.log"
 inforow "Stop"  "./stop.sh"
@@ -127,5 +127,5 @@ printf "\n"
 hr
 printf "\n"
 
-open_browser "http://localhost:3002/submit"
-open_browser "http://localhost:3002/advisor/login"
+open_browser "http://localhost:3008/submit"
+open_browser "http://localhost:3008/advisor/login"

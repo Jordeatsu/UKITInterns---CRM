@@ -29,7 +29,7 @@ for pid_file in "$LOG_DIR/server.pid" "$LOG_DIR/client.pid"; do
 done
 
 step "Freeing ports..."
-for port in 3002 5002; do
+for port in 3008 5008; do
   pids=$(lsof -ti:"$port" 2>/dev/null || true)
   if [[ -n "$pids" ]]; then
     echo "$pids" | xargs kill -9 2>/dev/null || true

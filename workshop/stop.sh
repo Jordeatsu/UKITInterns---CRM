@@ -47,7 +47,7 @@ else
 fi
 
 step "Freeing ports..."
-for port in 3002 5002; do
+for port in 3008 5008; do
   if [[ "$OS" == "windows" ]]; then
     powershell -Command "
       \$c = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue;

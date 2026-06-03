@@ -407,16 +407,16 @@ bash start.sh
 This will:
 1. Install/update dependencies in both `server/` and `client/`
 2. Build the React client
-3. Start the API server on port **5002**
-4. Serve the built client on port **3002**
+3. Start the API server on port **5008**
+4. Serve the built client on port **3008**
 5. Print the URL others on the same network can use to access the app
 
 | URL | Description |
 |---|---|
-| `http://localhost:3002/submit` | Consumer portal — submit a complaint |
-| `http://localhost:3002/advisor/login` | Advisor login |
+| `http://localhost:3008/submit` | Consumer portal — submit a complaint |
+| `http://localhost:3008/advisor/login` | Advisor login |
 
-> **LAN access:** When `start.sh` runs it will also print a `LAN:` URL (e.g. `http://192.168.1.x:3002`). Anyone on the same Wi-Fi network can use that URL to access the app from their own device.
+> **LAN access:** When `start.sh` runs it will also print a `LAN:` URL (e.g. `http://192.168.1.x:3008`). Anyone on the same Wi-Fi network can use that URL to access the app from their own device.
 
 ### 3. Stop the application
 
@@ -863,7 +863,7 @@ Server configuration lives in `workshop/server/.env`.
 
 | Variable | Default | Description |
 |---|---|---|
-| `PORT` | `5002` | Port the Express API listens on |
+| `PORT` | `5008` | Port the Express API listens on |
 | `JWT_SECRET` | `crm_workshop_secret_change_in_production` | Secret used to sign JWTs |
 | `NODE_ENV` | `development` | Set to `production` when running via `start.sh` |
 | `DB_PATH` | `./crm.db` | Path to the SQLite database file |
@@ -944,19 +944,19 @@ These are the windows within which an advisor should aim to respond. A case past
 
 ### Port already in use
 
-If `start.sh` or `dev-start.sh` fails with `address already in use` or `EADDRINUSE`, something is already running on port 5002 or 3002. Run `bash stop.sh` first, then try again. If that does not clear it:
+If `start.sh` or `dev-start.sh` fails with `address already in use` or `EADDRINUSE`, something is already running on port 5008 or 3008. Run `bash stop.sh` first, then try again. If that does not clear it:
 
 **Mac / Linux / Git Bash:**
 
 ```bash
-lsof -ti :5002 | xargs kill -9
-lsof -ti :3002 | xargs kill -9
+lsof -ti :5008 | xargs kill -9
+lsof -ti :3008 | xargs kill -9
 ```
 
 **Windows (Command Prompt or PowerShell):**
 
 ```cmd
-netstat -ano | findstr :5002
+netstat -ano | findstr :5008
 # Note the PID in the last column, then run:
 taskkill /F /PID <PID>
 ```

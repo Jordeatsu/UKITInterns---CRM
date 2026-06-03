@@ -8,20 +8,20 @@ export default defineConfig({
     },
     server: {
         host: true,
-        port: 3002,
+        port: 3008,
         proxy: {
             "/api": {
-                target: "http://localhost:5002",
+                target: "http://localhost:5008",
                 changeOrigin: true,
             },
         },
     },
     preview: {
         host: true,
-        port: 3002,
+        port: 3008,
         proxy: {
             "/api": {
-                target: "http://localhost:5002",
+                target: "http://localhost:5008",
                 changeOrigin: true,
             },
         },

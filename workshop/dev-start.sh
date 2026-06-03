@@ -83,13 +83,13 @@ printf "  ${BOLD}  ◆  CRM Workshop  ·  Dev (hot reload)${RESET}\n"
 hr
 
 # ── 1. Start API server ───────────────────────────────────────────────────────
-step "Starting API server on :5002..."
+step "Starting API server on :5008..."
 cd "$ROOT_DIR/server"
-PORT=5002 nohup node node_modules/.bin/nodemon index.js >"$SERVER_LOG" 2>&1 &
+PORT=5008 nohup node node_modules/.bin/nodemon index.js >"$SERVER_LOG" 2>&1 &
 SERVER_PID=$!
 echo "$SERVER_PID" > "$LOG_DIR/server.pid"
 for i in {1..15}; do
-  if curl -sf http://localhost:5002/api/health >/dev/null 2>&1; then
+  if curl -sf http://localhost:5008/api/health >/dev/null 2>&1; then
     break
   fi
   sleep 1
@@ -97,7 +97,7 @@ done
 ok "API server ready"
 
 # ── 2. Start Vite dev server ──────────────────────────────────────────────────
-step "Starting Vite dev server on :3002..."
+step "Starting Vite dev server on :3008..."
 cd "$ROOT_DIR/client"
 # Clear stale Vite cache to prevent production-build contamination from parent env
 rm -rf node_modules/.vite
@@ -105,7 +105,7 @@ NODE_ENV=development nohup node node_modules/.bin/vite >"$CLIENT_LOG" 2>&1 &
 CLIENT_PID=$!
 echo "$CLIENT_PID" > "$LOG_DIR/client.pid"
 for i in {1..15}; do
-  if curl -sf http://localhost:3002 >/dev/null 2>&1; then
+  if curl -sf http://localhost:3008 >/dev/null 2>&1; then
     break
   fi
   sleep 1
@@ -116,9 +116,9 @@ printf "\n"; hr
 printf "  ${BOLD}${GREEN}  ✓  CRM Workshop is running!${RESET}\n"
 hr
 printf "\n"
-urlrow  "App"   "http://localhost:3002"
-urlrow  "LAN"   "http://$IP:3002"
-urlrow  "API"   "http://localhost:5002/api"
+urlrow  "App"   "http://localhost:3008"
+urlrow  "LAN"   "http://$IP:3008"
+urlrow  "API"   "http://localhost:5008/api"
 printf "\n"
 inforow "Logs"  "logs/server.log  ·  logs/client.log"
 inforow "Stop"  "./dev-stop.sh"
@@ -126,5 +126,5 @@ printf "\n"
 hr
 printf "\n"
 
-open_browser "http://localhost:3002/submit"
-open_browser "http://localhost:3002/advisor/login"
+open_browser "http://localhost:3008/submit"
+open_browser "http://localhost:3008/advisor/login"
