@@ -1,0 +1,22 @@
+{
+  "name": "My Codespace",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-json",
+        "streetsidesoftware.code-spell-checker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "qwtel.sqlite-viewer"
+      ],
+      "settings": {
+        "github.copilot.enable": {
+          "*": false
+        }
+      }
+    }
+  },
+  "postCreateCommand": "cd /workshop && ./build.sh && cd server && npm run seed"
+}
