@@ -22,6 +22,19 @@ import { getDashboardSummary, getAllCases } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import CasesTable from "../shared/CasesTable";
 
+/**
+ * Advisor dashboard page.
+ *
+ * Combines summary metrics with a paginated/filterable cases table so advisors
+ * can both monitor workload and quickly access individual case records.
+ */
+
+/**
+ * Small metric card used for dashboard summary values.
+ *
+ * @param {{icon: import("react").ReactNode, label: string, value: string | number | null | undefined, accent: string}} props
+ * @returns {JSX.Element}
+ */
 function StatCard({ icon, label, value, accent }) {
     return (
         <Paper
@@ -63,10 +76,16 @@ function StatCard({ icon, label, value, accent }) {
     );
 }
 
+/**
+ * Advisor dashboard component.
+ *
+ * @returns {JSX.Element}
+ */
 export default function Dashboard() {
     const { token } = useAuth();
     const navigate = useNavigate();
 
+    /** State split by concern: summary metrics, table data, filters, and UI status. */
     const [summary, setSummary] = useState(null);
     const [cases, setCases] = useState([]);
     const [total, setTotal] = useState(0);
@@ -77,6 +96,7 @@ export default function Dashboard() {
     const [statusFilter, setStatusFilter] = useState("");
     const [search, setSearch] = useState("");
 
+    /** Loads dashboard summary metrics after auth token is available. */
     useEffect(() => {
         getDashboardSummary(token)
             .then(setSummary)
@@ -84,6 +104,10 @@ export default function Dashboard() {
             .finally(() => setLoadingS(false));
     }, [token]);
 
+    /**
+     * Reloads case rows when token, filters, or pagination changes.
+     * Converts zero-based UI page index to one-based API page numbering.
+     */
     useEffect(() => {
         setLoadingC(true);
         getAllCases(token, { status: statusFilter || undefined, search: search || undefined, excludeClosed: true, page: page + 1 })

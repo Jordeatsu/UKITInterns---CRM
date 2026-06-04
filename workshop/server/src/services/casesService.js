@@ -1,5 +1,12 @@
 const db = require("../database");
 
+/**
+ * Cases service.
+ *
+ * Encapsulates all database operations related to case creation, tracking,
+ * assignment, messaging, notes, and history.
+ */
+
 const SLA_HOURS = { high: 24, medium: 72, low: 168 };
 
 function computeDueDate(createdAt, priority) {
@@ -425,6 +432,9 @@ function addMessage(caseId, senderType, senderName, content) {
     return db.prepare("SELECT * FROM case_messages WHERE id = ?").get(result.lastInsertRowid);
 }
 
+/**
+ * Get full audit history for a case, newest changes first.
+ */
 function getHistory(caseId) {
     return db.prepare("SELECT * FROM case_history WHERE case_id = ? ORDER BY changed_at DESC").all(caseId);
 }

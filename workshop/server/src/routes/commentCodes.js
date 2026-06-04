@@ -3,6 +3,12 @@ const router = express.Router();
 const { authenticate } = require("../middleware/auth");
 const { getAllCommentCodes, getCommentCodesForProduct } = require("../controllers/commentCodesController");
 
+/**
+ * Comment code routes.
+ *
+ * Provides authenticated lookup endpoints for comment code catalogs.
+ */
+
 router.use(authenticate);
 
 // GET /api/comment-codes  — list all comment codes

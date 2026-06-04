@@ -15,12 +15,25 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EmailIcon from "@mui/icons-material/Email";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
+/**
+ * Confirmation screen metadata shown under "What happens next?".
+ *
+ * @type {{icon: import("react").ReactNode, text: string}[]}
+ */
 const STEPS = [
     { icon: <EmailIcon fontSize="small" />, text: "You will receive an email confirmation shortly." },
     { icon: <AssignmentIndIcon fontSize="small" />, text: "An advisor will be assigned to review your case." },
     { icon: <AccessTimeIcon fontSize="small" />, text: "We aim to respond within 2 business days." },
 ];
 
+/**
+ * Consumer confirmation page displayed after a successful case submission.
+ *
+ * Reads submission data from router state, shows the generated reference number,
+ * and provides the next-step guidance for the customer.
+ *
+ * @returns {JSX.Element}
+ */
 export default function Confirmation() {
     const { state } = useLocation();
     const navigate = useNavigate();
@@ -41,6 +54,11 @@ export default function Confirmation() {
 
     const { referenceNumber, subject, productName } = state;
 
+    /**
+     * Copies the case reference number to clipboard and shows temporary feedback.
+     *
+     * @returns {void}
+     */
     function handleCopy() {
         navigator.clipboard.writeText(referenceNumber).then(() => {
             setCopied(true);

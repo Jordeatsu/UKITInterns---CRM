@@ -9,11 +9,28 @@ import CaseDetail from "./advisor/CaseDetail";
 import NotFound from "./shared/NotFound";
 import { useAuth } from "./context/AuthContext";
 
+/**
+ * Route guard for advisor-only pages.
+ *
+ * Allows rendering child content when authenticated; otherwise redirects to
+ * the advisor login page.
+ *
+ * @param {{children: import("react").ReactNode}} props
+ * @returns {JSX.Element}
+ */
 function ProtectedRoute({ children }) {
     const { isAuthenticated } = useAuth();
     return isAuthenticated ? children : <Navigate to="/advisor/login" replace />;
 }
 
+/**
+ * Root application router.
+ *
+ * Defines all consumer and advisor routes, including protected advisor paths,
+ * default redirects, and catch-all 404 handling.
+ *
+ * @returns {JSX.Element}
+ */
 export default function App() {
     return (
         <BrowserRouter>

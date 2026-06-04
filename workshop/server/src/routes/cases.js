@@ -3,6 +3,12 @@ const router = express.Router();
 const { authenticate } = require("../middleware/auth");
 const { submitCase, trackCase, trackByContact, getAllCases, getCaseById, updateCase, getNotes, addNote, getCaseHistory, addProduct, removeProduct, addCommentCode, removeCommentCode, getMessages, addMessage, addConsumerMessage } = require("../controllers/casesController");
 
+/**
+ * Cases routes.
+ *
+ * Hosts both public customer case endpoints and protected advisor management endpoints.
+ */
+
 // ── Public routes (no authentication required) ────────────────────────────────
 
 // POST /api/cases                              — customer submits a new complaint

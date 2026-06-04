@@ -1,5 +1,14 @@
 const complaintTypesService = require("../services/complaintTypesService");
 
+/**
+ * Complaint types controller.
+ *
+ * Provides read-only complaint type options for form dropdowns.
+ */
+
+/**
+ * GET /api/complaint-types
+ */
 function getAllComplaintTypes(req, res) {
     try {
         res.json(complaintTypesService.getAll());

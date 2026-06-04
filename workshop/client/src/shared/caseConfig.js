@@ -1,3 +1,10 @@
+/**
+ * Display metadata for case statuses.
+ *
+ * Used by chips and tables to keep labels/colors consistent across the UI.
+ *
+ * @type {Record<string, {label: string, color: string, bg: string, border: string}>}
+ */
 export const STATUS_CONFIG = {
     open: {
         label: "Open",
@@ -25,6 +32,11 @@ export const STATUS_CONFIG = {
     },
 };
 
+/**
+ * Display metadata for case priority values.
+ *
+ * @type {Record<string, {label: string, verboseLabel: string, color: string, bg: string, border: string}>}
+ */
 export const PRIORITY_CONFIG = {
     high: { label: "High", verboseLabel: "High Priority", color: "#C62828", bg: "rgba(198,40,40,0.10)", border: "rgba(198,40,40,0.25)" },
     medium: { label: "Medium", verboseLabel: "Medium Priority", color: "#E65100", bg: "rgba(230,81,0,0.10)", border: "rgba(230,81,0,0.25)" },

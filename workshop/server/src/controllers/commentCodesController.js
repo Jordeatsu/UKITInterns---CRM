@@ -1,6 +1,12 @@
 const commentCodesService = require("../services/commentCodesService");
 
 /**
+ * Comment codes controller.
+ *
+ * Serves comment-code lookup endpoints for advisor workflows.
+ */
+
+/**
  * GET /api/comment-codes
  */
 function getAllCommentCodes(req, res) {

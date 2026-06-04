@@ -2,6 +2,12 @@ const bcrypt = require("bcryptjs");
 const db = require("../database");
 
 /**
+ * Auth service.
+ *
+ * Contains credential validation logic for advisor authentication.
+ */
+
+/**
  * Verify an advisor's email and password against the database.
  * Returns the advisor object (without the password hash) if valid, or null.
  */

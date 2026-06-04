@@ -11,17 +11,43 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { login as apiLogin } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * Advisor authentication screen.
+ *
+ * Collects email/password, calls the login API, stores auth context,
+ * and redirects successful logins to the advisor dashboard.
+ */
+
+/**
+ * Advisor login component.
+ *
+ * @returns {JSX.Element}
+ */
 export default function Login() {
     const navigate = useNavigate();
     const { login } = useAuth();
+
+    /** Form values and request status used for user feedback. */
     const [form, setForm] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    /**
+     * Generic input handler for both form fields.
+     *
+     * @param {import("react").ChangeEvent<HTMLInputElement | HTMLTextAreaElement>} e
+     * @returns {void}
+     */
     function handleChange(e) {
         setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
     }
 
+    /**
+     * Handles advisor sign-in flow.
+     *
+     * @param {import("react").FormEvent<HTMLFormElement>} e
+     * @returns {Promise<void>}
+     */
     async function handleSubmit(e) {
         e.preventDefault();
         setError("");

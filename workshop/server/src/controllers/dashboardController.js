@@ -1,5 +1,14 @@
 const dashboardService = require("../services/dashboardService");
 
+/**
+ * Dashboard controller.
+ *
+ * Returns summary and analytics data used by advisor dashboard views.
+ */
+
+/**
+ * GET /api/dashboard
+ */
 function getSummary(req, res) {
     try {
         res.json(dashboardService.getSummary());
@@ -9,6 +18,9 @@ function getSummary(req, res) {
     }
 }
 
+/**
+ * GET /api/dashboard/analytics
+ */
 function getAnalytics(req, res) {
     try {
         res.json(dashboardService.getAnalytics());

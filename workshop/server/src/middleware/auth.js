@@ -3,6 +3,12 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET || "crm_workshop_secret";
 
 /**
+ * Authentication middleware module.
+ *
+ * Verifies bearer JWTs and attaches advisor identity to the request object.
+ */
+
+/**
  * Authentication middleware.
  *
  * Reads the JWT from the Authorization header, verifies it, and attaches the

@@ -12,6 +12,24 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import { StatusChip, PriorityChip, DueDateCell } from "./CaseChips";
 import { formatDate } from "../utils/format";
 
+/**
+ * Shared table for rendering paginated case rows in advisor views.
+ *
+ * Supports loading, empty, and data states; delegates row navigation to the caller.
+ *
+ * @param {{
+ *   cases: any[],
+ *   total: number,
+ *   page: number,
+ *   rowsPerPage: number,
+ *   onPageChange: (event: unknown, newPage: number) => void,
+ *   loading: boolean,
+ *   onRowClick: (id: string) => void,
+ *   showAssignedTo?: boolean,
+ *   emptyText?: string
+ * }} props
+ * @returns {JSX.Element}
+ */
 export default function CasesTable({ cases, total, page, rowsPerPage, onPageChange, loading, onRowClick, showAssignedTo = true, emptyText = "No cases found" }) {
     if (loading) {
         return (

@@ -3,6 +3,12 @@ const router = express.Router();
 const { authenticate } = require("../middleware/auth");
 const { login, getMe } = require("../controllers/authController");
 
+/**
+ * Auth routes.
+ *
+ * Defines authentication endpoints for advisor login and identity lookup.
+ */
+
 // POST /api/auth/login  — exchange credentials for a JWT
 router.post("/login", login);
 

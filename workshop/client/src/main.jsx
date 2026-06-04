@@ -6,6 +6,12 @@ import App from "./App";
 import theme from "./theme";
 import { AuthProvider } from "./context/AuthContext";
 
+/**
+ * Client application bootstrap entry point.
+ *
+ * Mounts the React app into the DOM and wraps it with global providers:
+ * MUI theme, CSS baseline reset, and authentication context.
+ */
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>

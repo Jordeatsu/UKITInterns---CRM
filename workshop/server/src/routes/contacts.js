@@ -3,6 +3,12 @@ const router = express.Router();
 const { authenticate } = require("../middleware/auth");
 const { getAllContacts, getContactById, updateContact, mergeContacts } = require("../controllers/contactsController");
 
+/**
+ * Contacts routes.
+ *
+ * Defines authenticated advisor endpoints for contact records.
+ */
+
 router.use(authenticate);
 
 router.get("/", getAllContacts);

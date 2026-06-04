@@ -16,6 +16,19 @@ import { getCaseById } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { formatDateTime } from "../utils/format";
 
+/**
+ * Advisor case detail page.
+ *
+ * Reads the case ID from route params, loads the matching case from the API,
+ * and renders grouped sections for details, contact info, and metadata.
+ */
+
+/**
+ * Reusable heading for card sections in the case detail view.
+ *
+ * @param {{icon: import("react").ReactNode, children: import("react").ReactNode}} props
+ * @returns {JSX.Element}
+ */
 function SectionHeading({ icon, children }) {
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
@@ -27,6 +40,12 @@ function SectionHeading({ icon, children }) {
     );
 }
 
+/**
+ * Reusable two-column metadata row.
+ *
+ * @param {{label: string, children: import("react").ReactNode}} props
+ * @returns {JSX.Element}
+ */
 function MetaRow({ label, children }) {
     return (
         <Box sx={{ display: "flex", gap: 1, mb: 1.5, alignItems: "flex-start" }}>
@@ -38,15 +57,23 @@ function MetaRow({ label, children }) {
     );
 }
 
+/**
+ * Loads and displays a single case for advisor review.
+ *
+ * @returns {JSX.Element}
+ */
 export default function CaseDetail() {
+    /** Route parameter containing the case ID (for /advisor/cases/:id). */
     const { id } = useParams();
     const navigate = useNavigate();
     const { token } = useAuth();
 
+    /** Local UI state for API lifecycle and loaded case payload. */
     const [caseData, setCaseData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    /** Fetches case details whenever the route case ID changes. */
     useEffect(() => {
         getCaseById(null, id) // TODO: this call is missing something — check how other protected API calls are made
             .then(setCaseData)
@@ -54,6 +81,7 @@ export default function CaseDetail() {
             .finally(() => setLoading(false));
     }, [id]);
 
+    /** Loading state while the case-detail request is in progress. */
     if (loading) {
         return (
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
@@ -62,6 +90,7 @@ export default function CaseDetail() {
         );
     }
 
+    /** Error fallback when the request failed and no case data is available. */
     if (error && !caseData) {
         return (
             <Box sx={{ p: 4 }}>
@@ -70,6 +99,7 @@ export default function CaseDetail() {
         );
     }
 
+    /** Alias used to keep JSX bindings concise. */
     const c = caseData;
 
     return (

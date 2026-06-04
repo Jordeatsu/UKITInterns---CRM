@@ -1,5 +1,14 @@
 const contactsService = require("../services/contactsService");
 
+/**
+ * Contacts controller.
+ *
+ * Handles advisor-facing contact list, detail, update, and merge operations.
+ */
+
+/**
+ * GET /api/contacts
+ */
 function getAllContacts(req, res) {
     try {
         res.json(contactsService.getAll());
@@ -9,6 +18,9 @@ function getAllContacts(req, res) {
     }
 }
 
+/**
+ * GET /api/contacts/:id
+ */
 function getContactById(req, res) {
     try {
         const contact = contactsService.getById(req.params.id);
@@ -20,6 +32,9 @@ function getContactById(req, res) {
     }
 }
 
+/**
+ * PATCH /api/contacts/:id
+ */
 function updateContact(req, res) {
     try {
         const { name, email, phone } = req.body;
@@ -35,6 +50,9 @@ function updateContact(req, res) {
     }
 }
 
+/**
+ * POST /api/contacts/:id/merge
+ */
 function mergeContacts(req, res) {
     try {
         const { mergeIds } = req.body;

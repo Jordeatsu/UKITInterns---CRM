@@ -1,6 +1,12 @@
 const productsService = require("../services/productsService");
 
 /**
+ * Products controller.
+ *
+ * Provides product lookup endpoints used by consumer and advisor flows.
+ */
+
+/**
  * GET /api/products
  */
 function getAllProducts(req, res) {

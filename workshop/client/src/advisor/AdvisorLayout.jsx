@@ -10,14 +10,36 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import { useAuth } from "../context/AuthContext";
 
+/**
+ * Shared layout shell for advisor routes.
+ *
+ * Renders the persistent sidebar (branding, navigation, advisor info, logout)
+ * and an Outlet where nested advisor pages are displayed.
+ */
+
 const SIDEBAR_W = 256;
 
+/**
+ * Sidebar navigation items for advisor pages.
+ *
+ * @type {{label: string, icon: import("react").ReactNode, to: string}[]}
+ */
 const NAV_ITEMS = [{ label: "Dashboard", icon: <DashboardIcon fontSize="small" />, to: "/advisor/dashboard" }];
 
+/**
+ * Advisor area layout component.
+ *
+ * @returns {JSX.Element}
+ */
 export default function AdvisorLayout() {
     const { advisor, logout } = useAuth();
     const navigate = useNavigate();
 
+    /**
+     * Clears advisor auth state and redirects to the login page.
+     *
+     * @returns {void}
+     */
     function handleLogout() {
         logout();
         navigate("/advisor/login", { replace: true });

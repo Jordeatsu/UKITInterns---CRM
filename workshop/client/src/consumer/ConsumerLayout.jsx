@@ -7,9 +7,24 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
+/**
+ * Public-facing shell for consumer pages.
+ *
+ * Provides shared navigation, page background styling, and an Outlet where
+ * consumer routes (submit form, confirmation, etc.) are rendered.
+ *
+ * @returns {JSX.Element}
+ */
 export default function ConsumerLayout() {
     const { pathname } = useLocation();
 
+    /**
+     * Builds a single top-navigation button and highlights it when active.
+     *
+     * @param {string} to - Route destination.
+     * @param {string} label - Text shown on the button.
+     * @returns {JSX.Element}
+     */
     const navBtn = (to, label) => {
         const active = to === "/submit" ? pathname.startsWith("/submit") : pathname === to;
         return (
@@ -62,27 +77,6 @@ export default function ConsumerLayout() {
                     <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}></Box>
                     <Box sx={{ display: "flex", gap: 0.5 }}>
                         {navBtn("/submit", "Submit a Case")}
-                        {/* <Button
-              component={Link}
-              to="/advisor/login"
-              variant="outlined"
-              size="small"
-              sx={{
-                color: 'rgba(255,255,255,0.8)',
-                borderColor: 'rgba(255,255,255,0.2)',
-                ml: 1.5,
-                alignSelf: 'center',
-                borderRadius: 2,
-                backdropFilter: 'blur(4px)',
-                '&:hover': {
-                  borderColor: 'rgba(255,255,255,0.6)',
-                  bgcolor: 'rgba(255,255,255,0.06)',
-                  color: 'white',
-                },
-              }}
-            >
-              Advisor Login
-            </Button> */}
                     </Box>
                 </Toolbar>
             </AppBar>

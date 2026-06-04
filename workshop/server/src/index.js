@@ -1,5 +1,11 @@
 require("dotenv").config();
 
+/**
+ * Express application entrypoint.
+ *
+ * Configures middleware, mounts API routes, and starts the CRM API server.
+ */
+
 const express = require("express");
 const cors = require("cors");
 

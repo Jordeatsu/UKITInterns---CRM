@@ -8,6 +8,13 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import LoginIcon from '@mui/icons-material/Login';
 import { useAuth } from '../context/AuthContext';
 
+/**
+ * Global 404 page used for unknown routes in both consumer and advisor flows.
+ *
+ * Selects the primary action button based on current path and auth state.
+ *
+ * @returns {JSX.Element}
+ */
 export default function NotFound() {
   const navigate = useNavigate();
   const { pathname } = useLocation();

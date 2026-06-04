@@ -1,5 +1,14 @@
 const db = require("../database");
 
+/**
+ * Contacts service.
+ *
+ * Handles contact retrieval, updates, and merge operations with related cases.
+ */
+
+/**
+ * Returns all contacts with aggregate case metrics.
+ */
 function getAll() {
     return db
         .prepare(
@@ -22,6 +31,9 @@ function getAll() {
         .all();
 }
 
+/**
+ * Returns one contact plus their case list.
+ */
 function getById(id) {
     const contact = db.prepare("SELECT * FROM contacts WHERE id = ?").get(id);
     if (!contact) return null;
@@ -55,6 +67,9 @@ function getById(id) {
     return { ...contact, cases };
 }
 
+/**
+ * Updates the core fields of a contact record.
+ */
 function updateContact(id, { name, email, phone }) {
     const stmt = db.prepare(`
     UPDATE contacts SET name = ?, email = ?, phone = ? WHERE id = ?
@@ -64,6 +79,9 @@ function updateContact(id, { name, email, phone }) {
     return db.prepare("SELECT * FROM contacts WHERE id = ?").get(id);
 }
 
+/**
+ * Merges one or more contacts into a primary contact.
+ */
 function mergeContacts(primaryId, mergeIds) {
     const merge = db.transaction(() => {
         for (const srcId of mergeIds) {

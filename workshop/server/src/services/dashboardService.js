@@ -1,6 +1,12 @@
 const db = require("../database");
 
 /**
+ * Dashboard service.
+ *
+ * Computes aggregate KPI and chart datasets for advisor dashboard screens.
+ */
+
+/**
  * Return summary counts for the advisor dashboard.
  */
 function getSummary() {
@@ -23,6 +29,9 @@ function getSummary() {
     return { total, open, inProgress, reopenedByConsumer, closed, recentCases };
 }
 
+/**
+ * Returns analytics datasets for charts.
+ */
 function getAnalytics() {
     const byComplaintType = db
         .prepare(

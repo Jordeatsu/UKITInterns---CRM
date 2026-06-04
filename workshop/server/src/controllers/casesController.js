@@ -1,5 +1,12 @@
 const casesService = require("../services/casesService");
 
+/**
+ * Cases controller.
+ *
+ * Exposes public consumer endpoints and protected advisor endpoints for
+ * creating, tracking, and managing CRM cases.
+ */
+
 // ── Public handlers ───────────────────────────────────────────────────────────
 
 /**

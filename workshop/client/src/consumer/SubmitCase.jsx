@@ -16,6 +16,11 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import { getProducts, getComplaintTypes, submitCase } from "../services/api";
 import { EMAIL_RE } from "../utils/validation";
 
+/**
+ * Initial state for the consumer case-submission form.
+ *
+ * @type {{name: string, email: string, product_id: string, complaint_type_id: string, description: string}}
+ */
 const EMPTY_FORM = {
     name: "",
     email: "",
@@ -24,6 +29,12 @@ const EMPTY_FORM = {
     description: "",
 };
 
+/**
+ * Reusable wrapper that renders each numbered step in the submit-case form.
+ *
+ * @param {{number: string, icon: import("react").ReactNode, title: string, children: import("react").ReactNode}} props
+ * @returns {JSX.Element}
+ */
 function StepSection({ number, icon, title, children }) {
     return (
         <Box sx={{ mb: 4 }}>
@@ -58,6 +69,14 @@ function StepSection({ number, icon, title, children }) {
     );
 }
 
+/**
+ * Public case-submission form for consumers.
+ *
+ * Loads product/type options, validates user input, submits the case,
+ * and redirects to the confirmation page with reference data.
+ *
+ * @returns {JSX.Element}
+ */
 export default function SubmitCase() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
@@ -76,12 +95,23 @@ export default function SubmitCase() {
             .catch(() => setApiError("Could not load form data. Please refresh the page."));
     }, []);
 
+    /**
+     * Updates a form field and clears any existing validation error for that field.
+     *
+     * @param {import("react").ChangeEvent<HTMLInputElement | HTMLTextAreaElement>} e
+     * @returns {void}
+     */
     function handleChange(e) {
         const { name, value } = e.target;
         setForm((prev) => ({ ...prev, [name]: value }));
         if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
     }
 
+    /**
+     * Performs email-only validation after the user leaves the email field.
+     *
+     * @returns {void}
+     */
     function handleEmailBlur() {
         if (!form.email.trim()) return;
         if (!EMAIL_RE.test(form.email.trim())) {
@@ -89,6 +119,11 @@ export default function SubmitCase() {
         }
     }
 
+    /**
+     * Validates required form fields and returns an errors object.
+     *
+     * @returns {Record<string, string>}
+     */
     function validate() {
         const next = {};
         if (!form.name.trim()) next.name = "Full name is required.";
@@ -100,6 +135,12 @@ export default function SubmitCase() {
         return next;
     }
 
+    /**
+     * Handles form submission: validate input, send API request, and navigate on success.
+     *
+     * @param {import("react").FormEvent<HTMLFormElement>} e
+     * @returns {Promise<void>}
+     */
     async function handleSubmit(e) {
         // TODO: prevent the default browser form submission behaviour
         const validationErrors = validate();
