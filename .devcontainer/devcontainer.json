@@ -12,11 +12,13 @@
         "qwtel.sqlite-viewer"
       ],
       "settings": {
+        "workbench.secondarySideBar.defaultVisibility": "hidden",
         "github.copilot.enable": {
           "*": false
         }
       }
     }
   },
-  "postCreateCommand": "cd /workshop && ./build.sh && cd server && npm run seed"
+  "postCreateCommand": "cd workshop && ./build.sh && cd server && npm run seed && cd ..",
+  "postAttachCommand": "./dev-start.sh"
 }
