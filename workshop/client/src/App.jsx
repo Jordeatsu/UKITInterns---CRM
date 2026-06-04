@@ -24,14 +24,7 @@ export default function App() {
                     <Route path="/submit/confirmation" element={<Confirmation />} />
                 </Route>
                 <Route path="/advisor/login" element={<Login />} />
-                <Route
-                    path="/advisor"
-                    element={
-                        <ProtectedRoute>
-                            <AdvisorLayout />
-                        </ProtectedRoute>
-                    }
-                >
+                <Route path="/advisor" element={<ProtectedRoute><AdvisorLayout /></ProtectedRoute>}>
                     <Route index element={<Navigate to="dashboard" replace />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="cases/:id" element={<CaseDetail />} />

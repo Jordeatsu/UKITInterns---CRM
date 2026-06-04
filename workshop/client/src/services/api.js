@@ -85,6 +85,12 @@ export async function addNote(token, caseId, content) {
     return res.json();
 }
 
+export async function getDashboardSummary(token) {
+    const res = await fetch(`${BASE_URL}/dashboard`, { headers: authHeaders(token) });
+    if (!res.ok) throw new Error("Failed to fetch dashboard summary");
+    return res.json();
+}
+
 export async function getCommentCodes(token) {
     const res = await fetch(`${BASE_URL}/comment-codes`, { headers: authHeaders(token) });
     if (!res.ok) throw new Error("Failed to fetch comment codes");
