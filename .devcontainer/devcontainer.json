@@ -19,6 +19,6 @@
       }
     }
   },
-  "postCreateCommand": "cd workshop && ./build.sh && cd server && npm run seed && cd ..",
-  "postAttachCommand": "./dev-start.sh"
+  "postCreateCommand": "cd workshop && ./build.sh && cd server && npm run seed",
+  "postAttachCommand": "cd workshop && ./dev-start.sh"
 }
