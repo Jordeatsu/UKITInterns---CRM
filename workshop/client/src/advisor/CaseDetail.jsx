@@ -168,8 +168,8 @@ export default function CaseDetail() {
                     <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: "1px solid rgba(21,101,192,0.10)", boxShadow: "0 4px 20px rgba(21,101,192,0.08)" }}>
                         <SectionHeading icon={<InfoOutlinedIcon fontSize="small" />}>Case Info</SectionHeading>
                         <MetaRow label="Assigned to">
-                            <Typography variant="body2" color={c.assigned_to ? "text.primary" : "text.disabled"}>
-                                {c.assigned_to || "Unassigned"}
+                            <Typography variant="body2" color={c.assigned_to_name ? "text.primary" : "text.disabled"}>
+                                {c.assigned_to_name || "Unassigned"}
                             </Typography>
                         </MetaRow>
                         <MetaRow label="Submitted">

@@ -96,12 +96,14 @@ function getByReference(referenceNumber) {
       c.updated_at,
       co.name  AS contact_name,
       ct.label AS complaint_type_label,
+      a.name   AS assigned_to_name,
       GROUP_CONCAT(p.name, ', ') AS product_names
     FROM cases c
     JOIN contacts co ON co.id = c.contact_id
     LEFT JOIN complaint_types  ct ON ct.id = c.complaint_type_id
     LEFT JOIN case_products    cp ON cp.case_id = c.id
     LEFT JOIN products          p ON p.id = cp.product_id
+    LEFT JOIN advisors          a ON a.id = c.assigned_to
     WHERE c.reference_number = ?
     GROUP BY c.id
   `,
@@ -139,12 +141,14 @@ function getByContact(email, name) {
       c.updated_at,
       co.name  AS contact_name,
       ct.label AS complaint_type_label,
+      a.name   AS assigned_to_name,
       GROUP_CONCAT(p.name, ', ') AS product_names
     FROM cases c
     JOIN contacts co ON co.id = c.contact_id
     LEFT JOIN complaint_types  ct ON ct.id = c.complaint_type_id
     LEFT JOIN case_products    cp ON cp.case_id = c.id
     LEFT JOIN products          p ON p.id = cp.product_id
+    LEFT JOIN advisors          a ON a.id = c.assigned_to
     WHERE c.contact_id = ?
     GROUP BY c.id
     ORDER BY c.created_at DESC
@@ -204,9 +208,11 @@ function getAll({ status, search, assignedTo, excludeClosed, page = 1, limit = 2
       c.*,
       co.name  AS contact_name,
       co.email AS contact_email,
-      co.phone AS contact_phone
+      co.phone AS contact_phone,
+      a.name   AS assigned_to_name
     FROM cases c
     JOIN contacts co ON co.id = c.contact_id
+    LEFT JOIN advisors a ON a.id = c.assigned_to
     ${where}
     ${orderBy}
     LIMIT ? OFFSET ?
@@ -231,10 +237,12 @@ function getById(id) {
       co.name  AS contact_name,
       co.email AS contact_email,
       co.phone AS contact_phone,
-      ct.label AS complaint_type_label
+      ct.label AS complaint_type_label,
+      a.name   AS assigned_to_name
     FROM cases c
     JOIN contacts co ON co.id = c.contact_id
     LEFT JOIN complaint_types ct ON ct.id = c.complaint_type_id
+    LEFT JOIN advisors a ON a.id = c.assigned_to
     WHERE c.id = ?
   `,
         )

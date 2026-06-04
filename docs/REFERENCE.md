@@ -178,5 +178,5 @@ These are the windows within which an advisor should aim to respond. A case past
 - **Contact deduplication** — When a customer submits a case, the server looks up their email case-insensitively. If a matching contact exists, it is reused; otherwise a new contact is created.
 - **SLA / due dates** — Not stored in the database. Computed on the fly from `created_at` + `priority` each time a case is fetched.
 - **Case history** — The server writes a `case_history` row inside the same database transaction as the case `UPDATE`, so the audit trail is always consistent.
-- **Consumer messaging** — When a consumer sends a message, the case status is automatically set to `reopened_by_consumer` and `assigned_to` is cleared, returning the case to the unassigned queue.
+- **Consumer messaging** — When a consumer sends a message, the case status is automatically set to `reopened_by_consumer` and `assigned_to` is cleared (set to `null`), returning the case to the unassigned queue.
 - **Pagination** — `GET /api/cases` returns `{ cases, total, page, limit }`. The default page size is 25. The `total` count lets the frontend calculate how many pages exist.

@@ -15,7 +15,7 @@ The base URL for all API routes is `/api`. Routes marked **Public** require no a
 | Method | Path | Auth | Description |
 |---|---|---|---|
 | `POST` | `/api/cases` | Public | Submit a new case |
-| `GET` | `/api/cases` | Protected | List cases — supports `?status=`, `?search=`, `?assigned_to=`, `?excludeClosed=true`, `?page=`, `?limit=` |
+| `GET` | `/api/cases` | Protected | List cases — supports `?status=`, `?search=`, `?assigned_to=<advisor_id>`, `?excludeClosed=true`, `?page=`, `?limit=` |
 | `GET` | `/api/cases/:id` | Protected | Full case details including products, comment codes, notes |
 | `PATCH` | `/api/cases/:id` | Protected | Update status, priority, or assigned\_to |
 | `GET` | `/api/cases/:id/notes` | Protected | Get advisor notes |

@@ -16,13 +16,13 @@ All advisors share the password `password123`.
 
 | Name | Email |
 |---|---|
-| Alice Johnson | alice@crm.com |
-| Bob Smith | bob@crm.com |
-| Carol White | carol@crm.com |
+| Alice Smith | alice@crm.com |
+| Bob Johnson | bob@crm.com |
+| Carol Williams | carol@crm.com |
 
 ### Sample cases
 
-40 cases are seeded across all statuses. A few useful ones:
+100 cases are seeded across all statuses with realistic customer complaints and product defects. A few useful ones:
 
 | Reference | Status | Priority | Description |
 |---|---|---|---|
@@ -148,7 +148,7 @@ The central table — one row per complaint.
 | `priority` | TEXT | `low` · `medium` · `high` — inherited from the complaint type on submit |
 | `subject` | TEXT | One-line summary auto-generated from the product and complaint type |
 | `description` | TEXT | The full complaint written by the customer |
-| `assigned_to` | TEXT | Name of the advisor handling the case — `null` if unassigned |
+| `assigned_to` | INTEGER | Foreign key reference to `advisors.id` — `null` if unassigned |
 | `created_at` | DATETIME | Set automatically on insert |
 | `updated_at` | DATETIME | Updated automatically whenever the case is modified |
 

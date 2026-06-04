@@ -68,15 +68,13 @@ The list below covers the minimum an advisor needs to actually do their job. Fix
 - [ ] Fix the four known bugs (see below)
 - [ ] An advisor can **update the status** of a case (open → in progress → closed)
 - [ ] An advisor can **assign** a case to themselves or a colleague
-- [ ] An advisor can **change the priority** of a case
 - [ ] An advisor can **add the products** involved in a complaint to the case
 - [ ] An advisor can **apply comment codes** to a product to categorise the fault
 - [ ] An advisor can **write internal notes** on a case, visible only to advisors
-- [ ] The **dashboard shows summary stats** — total cases, how many are open, in progress, closed, and so on
 
 ### Part 2 — Come up with your own ideas
 
-Once Part 1 is working (or in parallel, if your team is big enough), think about what would make the product genuinely more useful. You know the scenario — what is still missing?
+Once Part 1 is working (or in parallel), think about what would make the product genuinely more useful. You know the scenario — what is still missing?
 
 A few questions to get you thinking:
 

@@ -73,11 +73,12 @@ db.exec(`
     priority           TEXT    NOT NULL DEFAULT 'medium',   -- low | medium | high
     subject            TEXT    NOT NULL,
     description        TEXT    NOT NULL,
-    assigned_to        TEXT,
+    assigned_to        INTEGER,
     created_at         DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at         DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (contact_id)        REFERENCES contacts(id),
-    FOREIGN KEY (complaint_type_id) REFERENCES complaint_types(id)
+FOREIGN KEY (complaint_type_id) REFERENCES complaint_types(id),
+    FOREIGN KEY (assigned_to)       REFERENCES advisors(id)
   );
 
   -- Case products: which products are involved in a case (case <-> product)

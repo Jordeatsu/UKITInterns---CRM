@@ -90,8 +90,8 @@ export default function CasesTable({ cases, total, page, rowsPerPage, onPageChan
                                 </TableCell>
                                 {showAssignedTo && (
                                     <TableCell>
-                                        <Typography variant="body2" color={c.assigned_to ? "text.primary" : "text.disabled"}>
-                                            {c.assigned_to || "Unassigned"}
+                                        <Typography variant="body2" color={c.assigned_to_name ? "text.primary" : "text.disabled"}>
+                                            {c.assigned_to_name || "Unassigned"}
                                         </Typography>
                                     </TableCell>
                                 )}

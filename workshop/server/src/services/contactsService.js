@@ -52,11 +52,13 @@ function getById(id) {
       c.created_at,
       c.updated_at,
       ct.label AS complaint_type_label,
+      a.name   AS assigned_to_name,
       GROUP_CONCAT(p.name, ', ') AS product_names
     FROM cases c
     LEFT JOIN complaint_types  ct ON ct.id = c.complaint_type_id
     LEFT JOIN case_products    cp ON cp.case_id = c.id
     LEFT JOIN products          p ON p.id = cp.product_id
+    LEFT JOIN advisors          a ON a.id = c.assigned_to
     WHERE c.contact_id = ?
     GROUP BY c.id
     ORDER BY c.created_at DESC
