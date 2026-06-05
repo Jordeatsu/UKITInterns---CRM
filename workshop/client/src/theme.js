@@ -18,11 +18,30 @@ const theme = createTheme({
     },
     typography: {
         fontFamily: '"Inter", "Helvetica Neue", Arial, sans-serif',
+        h3: { fontWeight: 700, letterSpacing: "-0.6px" },
         h4: { fontWeight: 700, letterSpacing: "-0.5px" },
         h5: { fontWeight: 700, letterSpacing: "-0.3px" },
         h6: { fontWeight: 600 },
+        body1: { lineHeight: 1.65 },
+        body2: { lineHeight: 1.6 },
+        caption: { letterSpacing: "0.02em" },
+        overline: { letterSpacing: "0.08em", fontWeight: 700, fontSize: "0.68rem" },
         subtitle1: { fontWeight: 600 },
+        subtitle2: { fontWeight: 600, letterSpacing: "0.01em" },
         button: { fontWeight: 600, textTransform: "none" },
+    },
+    custom: {
+        glass: {
+            blur: 18,
+            borderAlpha: 0.14,
+            surfaceAlpha: 0.82,
+            shadow: "0 26px 60px rgba(0,0,0,0.42), 0 8px 22px rgba(0,0,0,0.24), 0 1px 0 rgba(255,255,255,0.08) inset",
+        },
+        card: {
+            borderAlpha: 0.11,
+            hoverLift: "translateY(-2px)",
+            hoverShadow: "0 14px 28px rgba(0,0,0,0.12), 0 5px 10px rgba(0,0,0,0.08)",
+        },
     },
     shape: {
         borderRadius: 12,
