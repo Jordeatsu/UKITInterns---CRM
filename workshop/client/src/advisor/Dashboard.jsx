@@ -18,51 +18,32 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { alpha } from "@mui/material/styles";
 import { getDashboardSummary, getAllCases } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import CasesTable from "../shared/CasesTable";
+import PageHeader from "../shared/PageHeader";
+import SurfaceCard from "../shared/SurfaceCard";
 
-/**
- * Advisor dashboard page.
- *
- * Combines summary metrics with a paginated/filterable cases table so advisors
- * can both monitor workload and quickly access individual case records.
- */
-
-/**
- * Small metric card used for dashboard summary values.
- *
- * @param {{icon: import("react").ReactNode, label: string, value: string | number | null | undefined, accent: string}} props
- * @returns {JSX.Element}
- */
-function StatCard({ icon, label, value, accent }) {
+function StatCard({ icon, label, value, tone = "primary" }) {
     return (
-        <Paper
-            elevation={0}
-            sx={{
-                p: 3,
-                borderRadius: 3,
-                border: "1px solid rgba(0,0,0,0.07)",
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                bgcolor: "#fff",
-                minWidth: 0,
-            }}
-        >
+        <SurfaceCard sx={{ p: 3, display: "flex", alignItems: "center", gap: 2, minWidth: 0 }} interactive>
             <Box
-                sx={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 2,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    bgcolor: accent + "18",
-                    flexShrink: 0,
+                sx={(theme) => {
+                    const paletteTone = theme.palette[tone] || theme.palette.primary;
+                    return {
+                        width: 48,
+                        height: 48,
+                        borderRadius: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        bgcolor: alpha(paletteTone.main, 0.15),
+                        flexShrink: 0,
+                    };
                 }}
             >
-                <Box sx={{ color: accent, display: "flex" }}>{icon}</Box>
+                <Box sx={{ color: (theme) => (theme.palette[tone] || theme.palette.primary).main, display: "flex" }}>{icon}</Box>
             </Box>
             <Box sx={{ flex: 1, minWidth: 0 }}>
                 <Typography variant="h5" fontWeight={700} lineHeight={1.1} noWrap>
@@ -72,20 +53,14 @@ function StatCard({ icon, label, value, accent }) {
                     {label}
                 </Typography>
             </Box>
-        </Paper>
+        </SurfaceCard>
     );
 }
 
-/**
- * Advisor dashboard component.
- *
- * @returns {JSX.Element}
- */
 export default function Dashboard() {
     const { token } = useAuth();
     const navigate = useNavigate();
 
-    /** State split by concern: summary metrics, table data, filters, and UI status. */
     const [summary, setSummary] = useState(null);
     const [cases, setCases] = useState([]);
     const [total, setTotal] = useState(0);
@@ -95,8 +70,14 @@ export default function Dashboard() {
     const [error, setError] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
     const [search, setSearch] = useState("");
+    const [nextCase, setNextCase] = useState(null);
 
-    /** Loads dashboard summary metrics after auth token is available. */
+    useEffect(() => {
+        getAllCases(token, { excludeClosed: true, limit: 1 })
+            .then(({ cases: all }) => setNextCase(all.find((c) => !c.assigned_to) ?? null))
+            .catch(() => {});
+    }, [token]);
+
     useEffect(() => {
         getDashboardSummary(token)
             .then(setSummary)
@@ -104,10 +85,6 @@ export default function Dashboard() {
             .finally(() => setLoadingS(false));
     }, [token]);
 
-    /**
-     * Reloads case rows when token, filters, or pagination changes.
-     * Converts zero-based UI page index to one-based API page numbering.
-     */
     useEffect(() => {
         setLoadingC(true);
         getAllCases(token, { status: statusFilter || undefined, search: search || undefined, excludeClosed: true, page: page + 1 })
@@ -121,14 +98,7 @@ export default function Dashboard() {
 
     return (
         <Box sx={{ p: 4 }}>
-            <Box sx={{ mb: 4 }}>
-                <Typography variant="h5" fontWeight={700}>
-                    Dashboard
-                </Typography>
-                <Typography variant="body2" color="text.secondary" mt={0.5}>
-                    Overview of all customer cases
-                </Typography>
-            </Box>
+            <PageHeader eyebrow="Advisor workspace" title="Dashboard" subtitle="Overview of active customer cases and assignments" />
 
             {error && (
                 <Alert severity="error" sx={{ mb: 3 }}>
@@ -143,28 +113,39 @@ export default function Dashboard() {
             ) : (
                 <Grid container spacing={2} sx={{ mb: 4 }}>
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                        <StatCard icon={<FolderOpenIcon />} label="Total cases" value={summary?.total} accent="#1565C0" />
+                        <StatCard icon={<FolderOpenIcon />} label="Total cases" value={summary?.total} tone="primary" />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                        <StatCard icon={<InboxIcon />} label="Open" value={summary?.open} accent="#1976D2" />
+                        <StatCard icon={<InboxIcon />} label="Open" value={summary?.open} tone="info" />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                        <StatCard icon={<HourglassTopIcon />} label="In progress" value={summary?.inProgress} accent="#E65100" />
+                        <StatCard icon={<HourglassTopIcon />} label="In progress" value={summary?.inProgress} tone="warning" />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                        <StatCard icon={<NewReleasesIcon />} label="Reopened" value={summary?.reopenedByConsumer} accent="#7B1FA2" />
+                        <StatCard icon={<NewReleasesIcon />} label="Reopened" value={summary?.reopenedByConsumer} tone="secondary" />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                        <StatCard icon={<ArchiveIcon />} label="Closed" value={summary?.closed} accent="#546E7A" />
+                        <StatCard icon={<ArchiveIcon />} label="Closed" value={summary?.closed} tone="success" />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                        <StatCard icon={<TaskAltIcon />} label="Last 7 days" value={summary?.recentCases} accent="#2E7D32" />
+                        <StatCard icon={<TaskAltIcon />} label="Last 7 days" value={summary?.recentCases} tone="success" />
                     </Grid>
                 </Grid>
             )}
 
-            <Paper elevation={0} sx={{ borderRadius: 3, border: "1px solid rgba(0,0,0,0.07)", overflow: "hidden" }}>
-                <Box sx={{ px: 3, py: 2.5, display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+            <SurfaceCard sx={{ overflow: "hidden" }}>
+                <Box
+                    sx={(theme) => ({
+                        px: 3,
+                        py: 2.5,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                        flexWrap: "wrap",
+                        borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.13)}`,
+                        backgroundImage: `linear-gradient(130deg, ${alpha(theme.palette.common.white, 0.45)} 0%, ${alpha(theme.palette.primary.main, 0.06)} 100%)`,
+                    })}
+                >
                     <Typography variant="h6" fontWeight={600} sx={{ flexGrow: 1 }}>
                         All Cases
                     </Typography>
@@ -204,7 +185,30 @@ export default function Dashboard() {
                 </Box>
 
                 <CasesTable cases={cases} total={total} page={page} rowsPerPage={25} onPageChange={(_, newPage) => setPage(newPage)} loading={loadingC} onRowClick={(id) => navigate(`/advisor/cases/${id}`)} />
-            </Paper>
+            </SurfaceCard>
+
+            {nextCase && (
+                <Box sx={{ position: "fixed", bottom: 32, right: 32, zIndex: 1200 }}>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        endIcon={<ArrowForwardIcon />}
+                        onClick={() => navigate(`/advisor/cases/${nextCase.id}`)}
+                        sx={{
+                            fontWeight: 700,
+                            borderRadius: 2.5,
+                            px: 3,
+                            backgroundImage: (theme) => `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+                            boxShadow: (theme) => `0 4px 24px ${alpha(theme.palette.primary.main, 0.45)}`,
+                            "&:hover": {
+                                boxShadow: (theme) => `0 6px 28px ${alpha(theme.palette.primary.main, 0.55)}`,
+                            },
+                        }}
+                    >
+                        Get Next Case
+                    </Button>
+                </Box>
+            )}
         </Box>
     );
 }
