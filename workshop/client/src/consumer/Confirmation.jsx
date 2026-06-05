@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -15,26 +14,14 @@ import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EmailIcon from "@mui/icons-material/Email";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import { alpha } from "@mui/material/styles";
 
-/**
- * Confirmation screen metadata shown under "What happens next?".
- *
- * @type {{icon: import("react").ReactNode, text: string}[]}
- */
 const STEPS = [
     { icon: <EmailIcon fontSize="small" />, text: "You will receive an email confirmation shortly." },
     { icon: <AssignmentIndIcon fontSize="small" />, text: "An advisor will be assigned to review your case." },
     { icon: <AccessTimeIcon fontSize="small" />, text: "We aim to respond within 2 business days." },
 ];
 
-/**
- * Consumer confirmation page displayed after a successful case submission.
- *
- * Reads submission data from router state, shows the generated reference number,
- * and provides the next-step guidance for the customer.
- *
- * @returns {JSX.Element}
- */
 export default function Confirmation() {
     const { state } = useLocation();
     const navigate = useNavigate();
@@ -55,11 +42,6 @@ export default function Confirmation() {
 
     const { referenceNumber, subject, productName } = state;
 
-    /**
-     * Copies the case reference number to clipboard and shows temporary feedback.
-     *
-     * @returns {void}
-     */
     function handleCopy() {
         navigator.clipboard.writeText(referenceNumber).then(() => {
             setCopied(true);
@@ -69,7 +51,17 @@ export default function Confirmation() {
 
     return (
         <Box>
-            <Paper elevation={3} sx={{ overflow: "hidden" }}>
+            <Paper
+                elevation={0}
+                sx={(theme) => ({
+                    overflow: "hidden",
+                    borderRadius: 3,
+                    border: `1px solid ${alpha(theme.palette.common.white, theme.custom?.glass?.borderAlpha ?? 0.14)}`,
+                    boxShadow: theme.custom?.glass?.shadow,
+                    bgcolor: alpha(theme.palette.background.paper, theme.custom?.glass?.surfaceAlpha ?? 0.82),
+                    backdropFilter: `blur(${theme.custom?.glass?.blur ?? 18}px)`,
+                })}
+            >
                 {/* Green success header */}
                 <Box
                     sx={{
@@ -105,7 +97,7 @@ export default function Confirmation() {
                         }}
                     />
                     <CheckCircleIcon sx={{ fontSize: 72, mb: 1.5, filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.2))" }} />
-                    <Typography variant="h4" fontWeight={700} gutterBottom>
+                    <Typography variant="h4" fontWeight={700} gutterBottom sx={{ letterSpacing: "-0.4px" }}>
                         Case Submitted Successfully
                     </Typography>
                     <Typography variant="body1" sx={{ opacity: 0.85, maxWidth: 460, mx: "auto" }}>
@@ -117,14 +109,14 @@ export default function Confirmation() {
                     {/* Reference number */}
                     <Box sx={{ textAlign: "center", mb: 4 }}>
                         <Typography variant="body2" color="text.secondary" mb={1.5}>
-                            Your reference number — keep this safe to track your case
+                            Your reference number — keep this safe for future reference
                         </Typography>
                         <Box
                             sx={{
                                 display: "inline-flex",
                                 alignItems: "center",
                                 gap: 1.5,
-                                background: (theme) => `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.10)} 0%, ${alpha(theme.palette.secondary.main, 0.12)} 100%)`,
+                                background: (theme) => `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.secondary.main, 0.12)} 100%)`,
                                 border: "2px dashed",
                                 borderColor: "primary.main",
                                 borderRadius: 3,
@@ -202,8 +194,21 @@ export default function Confirmation() {
                                     borderRadius: 2,
                                     px: 2.5,
                                     py: 1.5,
+                                    position: "relative",
                                 }}
                             >
+                                {i < STEPS.length - 1 && (
+                                    <Box
+                                        sx={{
+                                            position: "absolute",
+                                            left: 18,
+                                            top: "100%",
+                                            height: 12,
+                                            width: 2,
+                                            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.25),
+                                        }}
+                                    />
+                                )}
                                 <Box
                                     sx={{
                                         color: "primary.main",
@@ -227,7 +232,7 @@ export default function Confirmation() {
 
                     {/* Actions */}
                     <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-                        <Button variant="outlined" startIcon={<AddCircleOutlinedIcon />} onClick={() => navigate("/submit")} sx={{ flexGrow: { xs: 1, sm: 0 } }}>
+                        <Button variant="contained" startIcon={<AddCircleOutlinedIcon />} onClick={() => navigate("/submit")} sx={{ flexGrow: { xs: 1, sm: 0 } }}>
                             Submit Another Case
                         </Button>
                     </Box>
