@@ -32,7 +32,7 @@ import { formatDateTime } from "../utils/format";
 function SectionHeading({ icon, children }) {
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-            <Box sx={{ color: "#1565C0", display: "flex", opacity: 0.7 }}>{icon}</Box>
+            <Box sx={{ color: "primary.main", display: "flex", opacity: 0.7 }}>{icon}</Box>
             <Typography variant="subtitle2" fontWeight={700} color="text.secondary" textTransform="uppercase" letterSpacing={0.5} fontSize="0.72rem">
                 {children}
             </Typography>

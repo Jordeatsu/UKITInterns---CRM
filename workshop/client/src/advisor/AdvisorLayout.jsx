@@ -8,6 +8,7 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
+import { alpha } from "@mui/material/styles";
 import { useAuth } from "../context/AuthContext";
 
 /**
@@ -55,8 +56,8 @@ export default function AdvisorLayout() {
                     flexShrink: 0,
                     display: "flex",
                     flexDirection: "column",
-                    backgroundImage: "linear-gradient(180deg, #060D1F 0%, #0A1628 60%, #0C1D30 100%)",
-                    borderRight: "1px solid rgba(255,255,255,0.07)",
+                    backgroundImage: (theme) => `linear-gradient(180deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 60%, ${theme.palette.secondary.main} 100%)`,
+                    borderRight: (theme) => `1px solid ${alpha(theme.palette.common.white, 0.07)}`,
                 }}
             >
                 {/* Brand */}
@@ -66,7 +67,7 @@ export default function AdvisorLayout() {
                             width: 36,
                             height: 36,
                             borderRadius: "10px",
-                            backgroundImage: "linear-gradient(135deg, #1565C0 0%, #00897B 100%)",
+                            backgroundImage: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -103,12 +104,12 @@ export default function AdvisorLayout() {
                                         mb: 0.5,
                                         cursor: "pointer",
                                         transition: "all 0.15s",
-                                        backgroundColor: isActive ? "rgba(21,101,192,0.22)" : "transparent",
-                                        border: isActive ? "1px solid rgba(21,101,192,0.35)" : "1px solid transparent",
-                                        color: isActive ? "#90CAF9" : "rgba(255,255,255,0.55)",
+                                        backgroundColor: isActive ? (theme) => alpha(theme.palette.common.white, 0.18) : "transparent",
+                                        border: isActive ? (theme) => `1px solid ${alpha(theme.palette.common.white, 0.34)}` : "1px solid transparent",
+                                        color: isActive ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.55)",
                                         "&:hover": {
-                                            backgroundColor: isActive ? "rgba(21,101,192,0.22)" : "rgba(255,255,255,0.06)",
-                                            color: isActive ? "#90CAF9" : "rgba(255,255,255,0.85)",
+                                            backgroundColor: isActive ? (theme) => alpha(theme.palette.common.white, 0.18) : (theme) => alpha(theme.palette.common.white, 0.08),
+                                            color: "rgba(255,255,255,0.95)",
                                         },
                                     }}
                                 >
@@ -122,7 +123,7 @@ export default function AdvisorLayout() {
                     ))}
                 </Box>
 
-                <Divider sx={{ borderColor: "rgba(255,255,255,0.07)", mx: 2 }} />
+                <Divider sx={{ borderColor: (theme) => alpha(theme.palette.common.white, 0.07), mx: 2 }} />
 
                 {/* Advisor info + logout */}
                 <Box sx={{ px: 2, py: 2, display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -149,7 +150,7 @@ export default function AdvisorLayout() {
                         </Typography>
                     </Box>
                     <Tooltip title="Sign out">
-                        <IconButton onClick={handleLogout} size="small" sx={{ color: "rgba(255,255,255,0.4)", "&:hover": { color: "#ef5350" } }}>
+                        <IconButton onClick={handleLogout} size="small" sx={{ color: "rgba(255,255,255,0.4)", "&:hover": { color: (theme) => theme.palette.error.light } }}>
                             <LogoutIcon fontSize="small" />
                         </IconButton>
                     </Tooltip>
@@ -157,7 +158,7 @@ export default function AdvisorLayout() {
             </Box>
 
             {/* Main content */}
-            <Box component="main" sx={{ flexGrow: 1, bgcolor: "#F4F6F9", minHeight: "100vh", overflow: "auto" }}>
+            <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh", overflow: "auto" }}>
                 <Outlet />
             </Box>
         </Box>

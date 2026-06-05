@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -72,7 +73,7 @@ export default function Confirmation() {
                 {/* Green success header */}
                 <Box
                     sx={{
-                        background: "linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #388E3C 100%)",
+                        background: (theme) => `linear-gradient(135deg, ${theme.palette.success.main} 0%, ${theme.palette.secondary.main} 52%, ${theme.palette.primary.main} 100%)`,
                         color: "white",
                         textAlign: "center",
                         py: 5,
@@ -123,7 +124,7 @@ export default function Confirmation() {
                                 display: "inline-flex",
                                 alignItems: "center",
                                 gap: 1.5,
-                                background: "linear-gradient(135deg, #E3F2FD 0%, #EDE7F6 100%)",
+                                background: (theme) => `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.10)} 0%, ${alpha(theme.palette.secondary.main, 0.12)} 100%)`,
                                 border: "2px dashed",
                                 borderColor: "primary.main",
                                 borderRadius: 3,
@@ -156,7 +157,7 @@ export default function Confirmation() {
                     {(subject || productName) && (
                         <Box
                             sx={{
-                                bgcolor: "#F8FAFC",
+                                bgcolor: (theme) => alpha(theme.palette.background.default, 0.75),
                                 border: "1px solid",
                                 borderColor: "divider",
                                 borderRadius: 2,
@@ -195,7 +196,7 @@ export default function Confirmation() {
                                     display: "flex",
                                     alignItems: "center",
                                     gap: 2,
-                                    bgcolor: "#F8FAFC",
+                                    bgcolor: (theme) => alpha(theme.palette.background.default, 0.75),
                                     border: "1px solid",
                                     borderColor: "divider",
                                     borderRadius: 2,

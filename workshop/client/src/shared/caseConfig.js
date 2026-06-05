@@ -8,9 +8,9 @@
 export const STATUS_CONFIG = {
     open: {
         label: "Open",
-        color: "#1565C0",
-        bg: "rgba(21,101,192,0.10)",
-        border: "rgba(21,101,192,0.25)",
+        color: "#8C3A2B",
+        bg: "rgba(140,58,43,0.10)",
+        border: "rgba(140,58,43,0.25)",
     },
     in_progress: {
         label: "In Progress",

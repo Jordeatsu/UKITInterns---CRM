@@ -13,6 +13,7 @@ import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import PersonIcon from "@mui/icons-material/Person";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import DescriptionIcon from "@mui/icons-material/Description";
+import { alpha } from "@mui/material/styles";
 import { getProducts, getComplaintTypes, submitCase } from "../services/api";
 import { EMAIL_RE } from "../utils/validation";
 
@@ -44,7 +45,7 @@ function StepSection({ number, icon, title, children }) {
                         width: 36,
                         height: 36,
                         borderRadius: "50%",
-                        background: "linear-gradient(135deg, #1976D2 0%, #1565C0 100%)",
+                        background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -52,7 +53,7 @@ function StepSection({ number, icon, title, children }) {
                         fontWeight: 700,
                         fontSize: 14,
                         flexShrink: 0,
-                        boxShadow: "0 2px 8px rgba(21,101,192,0.35)",
+                        boxShadow: (theme) => `0 2px 8px ${alpha(theme.palette.primary.main, 0.35)}`,
                     }}
                 >
                     {number}
@@ -182,7 +183,11 @@ export default function SubmitCase() {
             {/* Hero */}
             <Box
                 sx={{
-                    backgroundImage: ["radial-gradient(ellipse 120% 80% at 80% 50%, rgba(25,118,210,0.45) 0%, transparent 70%)", "linear-gradient(135deg, #0A1F4E 0%, #0D47A1 55%, #1565C0 100%)"].join(", "),
+                    backgroundImage: (theme) =>
+                        [
+                            `radial-gradient(ellipse 120% 80% at 80% 50%, ${alpha(theme.palette.secondary.main, 0.38)} 0%, transparent 70%)`,
+                            `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 55%, ${theme.palette.secondary.main} 100%)`,
+                        ].join(", "),
                     borderRadius: 3,
                     px: { xs: 3, sm: 5 },
                     py: { xs: 4, sm: 5 },
@@ -190,7 +195,7 @@ export default function SubmitCase() {
                     position: "relative",
                     overflow: "hidden",
                     color: "white",
-                    border: "1px solid rgba(255,255,255,0.10)",
+                    border: (theme) => `1px solid ${alpha(theme.palette.common.white, 0.10)}`,
                     boxShadow: "0 20px 50px rgba(0,0,0,0.45), 0 4px 12px rgba(0,0,0,0.3)",
                 }}
             >
@@ -250,14 +255,14 @@ export default function SubmitCase() {
                 elevation={0}
                 sx={{
                     overflow: "hidden",
-                    bgcolor: "rgba(255,255,255,0.98)",
+                    bgcolor: "background.paper",
                     backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255,255,255,0.10)",
+                    border: (theme) => `1px solid ${alpha(theme.palette.common.white, 0.10)}`,
                     boxShadow: "0 30px 70px rgba(0,0,0,0.55), 0 8px 20px rgba(0,0,0,0.30), 0 1px 0 rgba(255,255,255,0.08) inset",
                 }}
             >
                 {/* Progress bar decoration */}
-                <Box sx={{ height: 4, background: "linear-gradient(90deg, #1565C0, #00897B)" }} />
+                <Box sx={{ height: 4, background: (theme) => `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})` }} />
 
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ p: { xs: 3, sm: 5 } }}>
                     {/* Step 1: Your Details */}

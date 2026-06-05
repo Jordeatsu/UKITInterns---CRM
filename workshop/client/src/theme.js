@@ -1,28 +1,110 @@
 import { createTheme, alpha } from "@mui/material/styles";
 
+/**
+ * Named colour palette presets for the application theme.
+ *
+ * Switch the active theme by changing ACTIVE_THEME_PRESET to one of:
+ * "canyonSage" | "forestSand" | "charcoalAmber" | "coralOlive" | "monochromeSlate"
+ * "midnightPurple" | "oceanTeal" | "rosewoodGold" | "slateIndigo" | "mintChocolate"
+ */
+const THEME_PRESETS = {
+    canyonSage: {
+        primary: { main: "#8C3A2B", light: "#A84B39", dark: "#6E2D22", contrastText: "#fff" },
+        secondary: { main: "#2F6F62", contrastText: "#fff" },
+        success: { main: "#4E7A3E", light: "#6E9658" },
+        background: { default: "#F6F1EB", paper: "#FFFCF8" },
+        text: { primary: "#2D221C", secondary: "#6A5B50" },
+        divider: "#E9DED3",
+    },
+    forestSand: {
+        primary: { main: "#2E5F4F", light: "#3A7562", dark: "#21463A", contrastText: "#fff" },
+        secondary: { main: "#BA7A36", contrastText: "#fff" },
+        success: { main: "#3F7A43", light: "#5C9A63" },
+        background: { default: "#F2EFE7", paper: "#FCFAF5" },
+        text: { primary: "#1F2924", secondary: "#5E655F" },
+        divider: "#D8D2C4",
+    },
+    charcoalAmber: {
+        primary: { main: "#3A3A3A", light: "#505050", dark: "#262626", contrastText: "#fff" },
+        secondary: { main: "#C06A2C", contrastText: "#fff" },
+        success: { main: "#4B7A45", light: "#679D63" },
+        background: { default: "#EEEAE4", paper: "#FBF8F3" },
+        text: { primary: "#1E1B18", secondary: "#61574F" },
+        divider: "#D9D1C7",
+    },
+    coralOlive: {
+        primary: { main: "#B44B3A", light: "#CB614D", dark: "#8E3A2E", contrastText: "#fff" },
+        secondary: { main: "#5E6D3C", contrastText: "#fff" },
+        success: { main: "#4E7D4A", light: "#6B9B65" },
+        background: { default: "#F7EFE8", paper: "#FFFCF7" },
+        text: { primary: "#31221D", secondary: "#6E5D53" },
+        divider: "#E8D9CD",
+    },
+    monochromeSlate: {
+        primary: { main: "#2F2F2F", light: "#4A4A4A", dark: "#121212", contrastText: "#FFFFFF" },
+        secondary: { main: "#6E6E6E", contrastText: "#FFFFFF" },
+        success: { main: "#5D5D5D", light: "#7C7C7C" },
+        background: { default: "#EDEDED", paper: "#FFFFFF" },
+        text: { primary: "#121212", secondary: "#4F4F4F" },
+        divider: "#D0D0D0",
+    },
+    midnightPurple: {
+        primary: { main: "#4A1A6B", light: "#6B2E99", dark: "#2E0F44", contrastText: "#FFFFFF" },
+        secondary: { main: "#B8860B", contrastText: "#FFFFFF" },
+        success: { main: "#3A7A4A", light: "#56A066" },
+        background: { default: "#F2EDF7", paper: "#FBF8FE" },
+        text: { primary: "#1A0A2E", secondary: "#5E4A72" },
+        divider: "#DDD0EA",
+    },
+    oceanTeal: {
+        primary: { main: "#1A6B6B", light: "#2A8A8A", dark: "#0D4444", contrastText: "#FFFFFF" },
+        secondary: { main: "#D4694A", contrastText: "#FFFFFF" },
+        success: { main: "#3A7A55", light: "#569970" },
+        background: { default: "#E8F4F4", paper: "#F5FAFA" },
+        text: { primary: "#0D2E2E", secondary: "#4A6A6A" },
+        divider: "#C4DEDE",
+    },
+    rosewoodGold: {
+        primary: { main: "#7B2D3E", light: "#9A3A4F", dark: "#5C2030", contrastText: "#FFFFFF" },
+        secondary: { main: "#C4943A", contrastText: "#FFFFFF" },
+        success: { main: "#4A7A44", light: "#679960" },
+        background: { default: "#F7EEEE", paper: "#FFF8F8" },
+        text: { primary: "#2E1018", secondary: "#6A4A50" },
+        divider: "#EAD5D8",
+    },
+    slateIndigo: {
+        primary: { main: "#3D4A7A", light: "#5260A0", dark: "#2A3460", contrastText: "#FFFFFF" },
+        secondary: { main: "#C07830", contrastText: "#FFFFFF" },
+        success: { main: "#447A50", light: "#609968" },
+        background: { default: "#ECEEF5", paper: "#F8F9FD" },
+        text: { primary: "#1A1E30", secondary: "#505A7A" },
+        divider: "#D0D4E8",
+    },
+    mintChocolate: {
+        primary: { main: "#4A2E20", light: "#6A4030", dark: "#2E1A10", contrastText: "#FFFFFF" },
+        secondary: { main: "#2E8A6A", contrastText: "#FFFFFF" },
+        success: { main: "#3A7A5A", light: "#569978" },
+        background: { default: "#F0EDE8", paper: "#FBF9F7" },
+        text: { primary: "#1E100A", secondary: "#5E4A3A" },
+        divider: "#DDD5CC",
+    },
+};
+
+/** Change this value to switch the active colour theme across the whole app. */
+const ACTIVE_THEME_PRESET = "monochromeSlate";
+const palette = THEME_PRESETS[ACTIVE_THEME_PRESET] || THEME_PRESETS.canyonSage;
+
 const theme = createTheme({
     palette: {
-        primary: {
-            main: "#1565C0",
-            light: "#1976D2",
-            dark: "#0D47A1",
+        primary: palette.primary,
+        secondary: palette.secondary,
+        success: palette.success,
+        background: palette.background,
+        text: palette.text,
+        divider: palette.divider,
+        info: {
+            main: palette.secondary.main,
             contrastText: "#fff",
-        },
-        secondary: {
-            main: "#00897B",
-            contrastText: "#fff",
-        },
-        success: {
-            main: "#2E7D32",
-            light: "#4CAF50",
-        },
-        background: {
-            default: "#F0F4F8",
-            paper: "#FFFFFF",
-        },
-        text: {
-            primary: "#1A2027",
-            secondary: "#546E7A",
         },
     },
     typography: {
@@ -56,11 +138,11 @@ const theme = createTheme({
                     transition: "all 0.2s ease",
                 },
                 containedPrimary: {
-                    background: "linear-gradient(135deg, #1976D2 0%, #1565C0 100%)",
-                    boxShadow: "0 4px 14px rgba(21,101,192,0.35)",
+                    background: `linear-gradient(135deg, ${palette.primary.light} 0%, ${palette.primary.main} 100%)`,
+                    boxShadow: `0 4px 14px ${alpha(palette.primary.main, 0.35)}`,
                     "&:hover": {
-                        background: "linear-gradient(135deg, #1565C0 0%, #0D47A1 100%)",
-                        boxShadow: "0 6px 20px rgba(21,101,192,0.45)",
+                        background: `linear-gradient(135deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`,
+                        boxShadow: `0 6px 20px ${alpha(palette.primary.main, 0.45)}`,
                         transform: "translateY(-1px)",
                     },
                 },
@@ -79,10 +161,10 @@ const theme = createTheme({
                 root: {
                     "& .MuiOutlinedInput-root": {
                         borderRadius: 8,
-                        backgroundColor: "#FAFBFC",
+                        backgroundColor: alpha(palette.background.paper, 0.92),
                         transition: "background 0.2s",
-                        "&:hover": { backgroundColor: "#F5F7FA" },
-                        "&.Mui-focused": { backgroundColor: "#fff" },
+                        "&:hover": { backgroundColor: palette.background.paper },
+                        "&.Mui-focused": { backgroundColor: palette.background.paper },
                     },
                 },
             },
@@ -93,14 +175,14 @@ const theme = createTheme({
                     borderRadius: 16,
                 },
                 outlined: {
-                    borderColor: "#E2E8F0",
+                    borderColor: palette.divider,
                 },
             },
         },
         MuiDivider: {
             styleOverrides: {
                 root: {
-                    borderColor: "#E2E8F0",
+                    borderColor: palette.divider,
                 },
             },
         },

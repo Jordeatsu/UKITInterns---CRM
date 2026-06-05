@@ -1,11 +1,10 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import { alpha } from "@mui/material/styles";
 
 /**
  * Public-facing shell for consumer pages.
@@ -32,14 +31,14 @@ export default function ConsumerLayout() {
                 component={Link}
                 to={to}
                 sx={{
-                    color: "white",
+                    color: "common.white",
                     fontWeight: active ? 700 : 400,
                     opacity: active ? 1 : 0.75,
-                    borderBottom: active ? "2px solid rgba(255,255,255,0.9)" : "2px solid transparent",
+                    borderBottom: active ? (theme) => `2px solid ${alpha(theme.palette.common.white, 0.9)}` : "2px solid transparent",
                     borderRadius: 0,
                     px: 2,
                     py: 2.5,
-                    "&:hover": { opacity: 1, backgroundColor: "rgba(255,255,255,0.08)" },
+                    "&:hover": { opacity: 1, backgroundColor: (theme) => alpha(theme.palette.common.white, 0.08) },
                 }}
             >
                 {label}
@@ -53,24 +52,25 @@ export default function ConsumerLayout() {
                 display: "flex",
                 flexDirection: "column",
                 minHeight: "100vh",
-                backgroundImage: [
-                    "radial-gradient(ellipse 90% 55% at 12% 20%, rgba(29,78,216,0.22) 0%, transparent 65%)",
-                    "radial-gradient(ellipse 70% 50% at 88% 78%, rgba(0,137,123,0.17) 0%, transparent 60%)",
-                    "radial-gradient(ellipse 55% 65% at 62% 2%, rgba(99,102,241,0.13) 0%, transparent 55%)",
-                    "radial-gradient(ellipse 40% 35% at 40% 95%, rgba(21,101,192,0.10) 0%, transparent 50%)",
-                    "linear-gradient(160deg, #060D1F 0%, #0A1628 55%, #0C1D30 100%)",
-                ].join(", "),
+                backgroundImage: (theme) =>
+                    [
+                        `radial-gradient(ellipse 90% 55% at 12% 20%, ${alpha(theme.palette.primary.main, 0.22)} 0%, transparent 65%)`,
+                        `radial-gradient(ellipse 70% 50% at 88% 78%, ${alpha(theme.palette.secondary.main, 0.17)} 0%, transparent 60%)`,
+                        `radial-gradient(ellipse 55% 65% at 62% 2%, ${alpha(theme.palette.primary.light, 0.15)} 0%, transparent 55%)`,
+                        `radial-gradient(ellipse 40% 35% at 40% 95%, ${alpha(theme.palette.secondary.main, 0.10)} 0%, transparent 50%)`,
+                        `linear-gradient(160deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 55%, ${theme.palette.secondary.main} 100%)`,
+                    ].join(", "),
             }}
         >
             <AppBar
                 position="sticky"
                 elevation={0}
                 sx={{
-                    background: "rgba(6,13,31,0.70)",
+                    background: (theme) => alpha(theme.palette.primary.dark, 0.66),
                     backdropFilter: "blur(18px)",
                     WebkitBackdropFilter: "blur(18px)",
-                    borderBottom: "1px solid rgba(255,255,255,0.07)",
-                    boxShadow: "0 1px 0 rgba(255,255,255,0.04)",
+                    borderBottom: (theme) => `1px solid ${alpha(theme.palette.common.white, 0.07)}`,
+                    boxShadow: (theme) => `0 1px 0 ${alpha(theme.palette.common.white, 0.04)}`,
                 }}
             >
                 <Toolbar sx={{ px: { xs: 2, sm: 4 } }}>
