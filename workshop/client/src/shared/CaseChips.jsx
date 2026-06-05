@@ -1,9 +1,19 @@
+/**
+ * @file CaseChips.jsx
+ * @description Provides shared CRM UI behavior in CaseChips for advisor and consumer flows.
+ */
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
 import { STATUS_CONFIG, PRIORITY_CONFIG } from "./caseConfig";
 import { formatDate } from "../utils/format";
 
+/**
+ * Resolves a palette tone into chip color tokens.
+ * @param {import('@mui/material/styles').Theme} theme Active MUI theme.
+ * @param {string} tone Palette key to resolve.
+ * @returns {{main: string, bg: string, border: string}}
+ */
 function resolveTone(theme, tone = "primary") {
     const group = theme.palette[tone] || theme.palette.primary;
     return {
@@ -13,6 +23,11 @@ function resolveTone(theme, tone = "primary") {
     };
 }
 
+/**
+ * Renders a status chip for a case status.
+ * @param {{status: string}} props Component props.
+ * @returns {JSX.Element}
+ */
 export function StatusChip({ status }) {
     const cfg = STATUS_CONFIG[status] || { label: status, tone: "primary" };
     return (
@@ -33,6 +48,11 @@ export function StatusChip({ status }) {
     );
 }
 
+/**
+ * Renders a priority chip for a case priority.
+ * @param {{priority: string}} props Component props.
+ * @returns {JSX.Element}
+ */
 export function PriorityChip({ priority }) {
     const cfg = PRIORITY_CONFIG[priority] || { label: priority, tone: "primary" };
     return (
@@ -53,6 +73,11 @@ export function PriorityChip({ priority }) {
     );
 }
 
+/**
+ * Renders a formatted due date cell with overdue/soon emphasis.
+ * @param {{dueDate: string | null | undefined, status: string}} props Component props.
+ * @returns {JSX.Element}
+ */
 export function DueDateCell({ dueDate, status }) {
     if (!dueDate)
         return (

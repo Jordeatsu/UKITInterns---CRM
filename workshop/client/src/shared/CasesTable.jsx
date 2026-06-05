@@ -1,3 +1,7 @@
+/**
+ * @file CasesTable.jsx
+ * @description Provides shared CRM UI behavior in CasesTable for advisor and consumer flows.
+ */
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -14,6 +18,10 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import { StatusChip, PriorityChip, DueDateCell } from "./CaseChips";
 import { formatDate } from "../utils/format";
 
+/**
+ * Renders the shared CasesTable component used across CRM screens.
+ * @returns {JSX.Element}
+ */
 export default function CasesTable({ cases, total, page, rowsPerPage, onPageChange, loading, onRowClick, showAssignedTo = true, emptyText = "No cases found" }) {
     if (loading) {
         return (

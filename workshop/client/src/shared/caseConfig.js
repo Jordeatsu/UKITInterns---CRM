@@ -1,3 +1,7 @@
+/**
+ * @file caseConfig.js
+ * @description Provides shared CRM UI behavior in caseConfig for advisor and consumer flows.
+ */
 export const STATUS_CONFIG = {
     open: {
         label: "Open",

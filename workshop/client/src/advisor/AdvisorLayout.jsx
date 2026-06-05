@@ -28,8 +28,7 @@ const SIDEBAR_W = 256;
 const NAV_ITEMS = [{ label: "Dashboard", icon: <DashboardIcon fontSize="small" />, to: "/advisor/dashboard" }];
 
 /**
- * Advisor area layout component.
- *
+ * Renders the advisor layout with sidebar navigation and main content outlet.
  * @returns {JSX.Element}
  */
 export default function AdvisorLayout() {

@@ -1,3 +1,7 @@
+/**
+ * @file Confirmation.jsx
+ * @description Implements the consumer-facing Confirmation screen and workflow behavior.
+ */
 import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -22,6 +26,10 @@ const STEPS = [
     { icon: <AccessTimeIcon fontSize="small" />, text: "We aim to respond within 2 business days." },
 ];
 
+/**
+ * Renders the consumer case submission confirmation.
+ * @returns {JSX.Element}
+ */
 export default function Confirmation() {
     const { state } = useLocation();
     const navigate = useNavigate();

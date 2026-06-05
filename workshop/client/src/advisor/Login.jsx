@@ -29,8 +29,7 @@ const HIGHLIGHTS = [
  */
 
 /**
- * Advisor login component.
- *
+ * Renders the advisor authentication login view.
  * @returns {JSX.Element}
  */
 export default function Login() {

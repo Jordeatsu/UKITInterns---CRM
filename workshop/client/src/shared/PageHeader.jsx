@@ -1,15 +1,14 @@
 /**
- * Purpose: Reusable page header with optional eyebrow text, subtitle and actions.
- *
- * Keeping this component shared ensures consistent hierarchy and spacing
- * across advisor and consumer screens.
+ * @file PageHeader.jsx
+ * @description Provides shared CRM UI behavior in PageHeader for advisor and consumer flows.
  */
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
 
 /**
- * Renders a consistent top-of-page heading block.
+ * Renders the shared PageHeader component used across CRM screens.
+ * @returns {JSX.Element}
  */
 export default function PageHeader({ title, subtitle, eyebrow, actions = null, compact = false }) {
     return (

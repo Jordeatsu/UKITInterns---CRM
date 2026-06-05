@@ -1,3 +1,7 @@
+/**
+ * @file theme.js
+ * @description Builds the Material UI theme from the active local theme preset.
+ */
 import { createTheme, alpha } from "@mui/material/styles";
 import { THEME_PRESETS, ACTIVE_THEME_PRESET } from "./themePresets.local";
 

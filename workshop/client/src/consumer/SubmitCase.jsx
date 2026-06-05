@@ -1,3 +1,7 @@
+/**
+ * @file SubmitCase.jsx
+ * @description Implements the consumer-facing SubmitCase screen and workflow behavior.
+ */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -60,6 +64,10 @@ function StepSection({ number, icon, title, children }) {
     );
 }
 
+/**
+ * Renders the consumer case submission form with multi-step flow.
+ * @returns {JSX.Element}
+ */
 export default function SubmitCase() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);

@@ -1,3 +1,7 @@
+/**
+ * @file Dashboard.jsx
+ * @description Implements the advisor-facing Dashboard screen and workflow behavior.
+ */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -57,6 +61,10 @@ function StatCard({ icon, label, value, tone = "primary" }) {
     );
 }
 
+/**
+ * Renders the advisor dashboard with case summary and quick actions.
+ * @returns {JSX.Element}
+ */
 export default function Dashboard() {
     const { token } = useAuth();
     const navigate = useNavigate();

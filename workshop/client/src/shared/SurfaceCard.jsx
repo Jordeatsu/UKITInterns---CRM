@@ -1,13 +1,13 @@
 /**
- * Purpose: Shared elevated card shell used across advisor and consumer pages.
- *
- * Centralizing this style keeps borders, hover behavior and spacing consistent.
+ * @file SurfaceCard.jsx
+ * @description Provides shared CRM UI behavior in SurfaceCard for advisor and consumer flows.
  */
 import Paper from "@mui/material/Paper";
 import { alpha } from "@mui/material/styles";
 
 /**
- * Wraps content in a consistent card surface.
+ * Renders the shared SurfaceCard component used across CRM screens.
+ * @returns {JSX.Element}
  */
 export default function SurfaceCard({ children, sx = {}, interactive = false, ...props }) {
     return (

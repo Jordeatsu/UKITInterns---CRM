@@ -1,3 +1,7 @@
+/**
+ * @file themePresets.local.js
+ * @description Defines local theme presets and the active preset used by the app.
+ */
 export const THEME_PRESETS = {
     canyonSage: {
         primary: { main: "#8C3A2B", light: "#A84B39", dark: "#6E2D22", contrastText: "#fff" },

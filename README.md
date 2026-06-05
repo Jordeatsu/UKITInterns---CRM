@@ -128,3 +128,9 @@ Full setup instructions in **[SETUP.md](docs/SETUP.md)**.
 ## License
 
 This project is intended for educational use as part of an intern workshop.
+
+## Theme Selection
+
+- Theme presets are defined in `workshop/client/src/themePresets.local.js`.
+- The active preset is controlled by `ACTIVE_THEME_PRESET` in each directory's `themePresets.local.js` file.
+- Keep workshop theme choices aligned when comparing behavior, unless you are intentionally testing visual differences.

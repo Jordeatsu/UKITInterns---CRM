@@ -1,3 +1,7 @@
+/**
+ * @file ConsumerLayout.jsx
+ * @description Implements the consumer-facing ConsumerLayout screen and workflow behavior.
+ */
 import { Outlet, Link, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,6 +11,10 @@ import Container from "@mui/material/Container";
 import { alpha } from "@mui/material/styles";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
+/**
+ * Renders the consumer layout with navigation and main content outlet.
+ * @returns {JSX.Element}
+ */
 export default function ConsumerLayout() {
     const { pathname } = useLocation();
 
