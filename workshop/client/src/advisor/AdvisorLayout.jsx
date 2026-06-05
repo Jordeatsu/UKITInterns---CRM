@@ -47,15 +47,17 @@ export default function AdvisorLayout() {
     }
 
     return (
-        <Box sx={{ display: "flex", minHeight: "100vh" }}>
+        <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
             {/* Sidebar */}
             <Box
                 component="nav"
                 sx={{
                     width: SIDEBAR_W,
+                    height: "100vh",
                     flexShrink: 0,
                     display: "flex",
                     flexDirection: "column",
+                    overflow: "hidden",
                     backgroundImage: (theme) => `linear-gradient(180deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 60%, ${theme.palette.secondary.main} 100%)`,
                     borderRight: (theme) => `1px solid ${alpha(theme.palette.common.white, 0.07)}`,
                 }}
@@ -89,7 +91,7 @@ export default function AdvisorLayout() {
                 <Divider sx={{ borderColor: "rgba(255,255,255,0.07)", mx: 2 }} />
 
                 {/* Nav items */}
-                <Box sx={{ px: 1.5, pt: 2, flexGrow: 1 }}>
+                <Box sx={{ px: 1.5, pt: 2, flexGrow: 1, overflowY: "auto", minHeight: 0 }}>
                     {NAV_ITEMS.map(({ label, icon, to }) => (
                         <NavLink key={to} to={to} style={{ textDecoration: "none" }}>
                             {({ isActive }) => (
@@ -158,7 +160,7 @@ export default function AdvisorLayout() {
             </Box>
 
             {/* Main content */}
-            <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh", overflow: "auto" }}>
+            <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", height: "100vh", overflowY: "auto", minHeight: 0 }}>
                 <Outlet />
             </Box>
         </Box>
