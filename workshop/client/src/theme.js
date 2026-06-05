@@ -5,7 +5,8 @@ import { createTheme, alpha } from "@mui/material/styles";
  *
  * Switch the active theme by changing ACTIVE_THEME_PRESET to one of:
  * "canyonSage" | "forestSand" | "charcoalAmber" | "coralOlive" | "monochromeSlate"
- * "midnightPurple" | "oceanTeal" | "rosewoodGold" | "slateIndigo" | "mintChocolate"
+ * "midnightPurple" | "oceanTeal" | "rosewoodGold" | "slateIndigo" | "mintChocolate" | "blushBerry"
+ * "midwestHarvest" | "alpineMist" | "sunsetMesa" | "metroSlate"
  */
 const THEME_PRESETS = {
     canyonSage: {
@@ -87,6 +88,46 @@ const THEME_PRESETS = {
         background: { default: "#F0EDE8", paper: "#FBF9F7" },
         text: { primary: "#1E100A", secondary: "#5E4A3A" },
         divider: "#DDD5CC",
+    },
+    blushBerry: {
+        primary: { main: "#C43D7A", light: "#DB5C95", dark: "#9B2E61", contrastText: "#FFFFFF" },
+        secondary: { main: "#7A3EC4", contrastText: "#FFFFFF" },
+        success: { main: "#3E8A6E", light: "#5AA98A" },
+        background: { default: "#FBEFF5", paper: "#FFF8FC" },
+        text: { primary: "#3A1A2B", secondary: "#7A5A6B" },
+        divider: "#EBCFDE",
+    },
+    midwestHarvest: {
+        primary: { main: "#8B5A2B", light: "#A8733A", dark: "#6A4320", contrastText: "#FFFFFF" },
+        secondary: { main: "#5E7A2F", contrastText: "#FFFFFF" },
+        success: { main: "#4A7F44", light: "#66A45F" },
+        background: { default: "#F7F2E8", paper: "#FFFDF8" },
+        text: { primary: "#2F2418", secondary: "#6B5C4A" },
+        divider: "#E3D7C4",
+    },
+    alpineMist: {
+        primary: { main: "#3D6E7A", light: "#5290A0", dark: "#2B4F59", contrastText: "#FFFFFF" },
+        secondary: { main: "#7A5C3D", contrastText: "#FFFFFF" },
+        success: { main: "#3F7A5C", light: "#5A9A78" },
+        background: { default: "#ECF3F5", paper: "#F8FCFD" },
+        text: { primary: "#162A30", secondary: "#4E6770" },
+        divider: "#CCDBDF",
+    },
+    sunsetMesa: {
+        primary: { main: "#C45A3D", light: "#DB7454", dark: "#9B442D", contrastText: "#FFFFFF" },
+        secondary: { main: "#7A3F5E", contrastText: "#FFFFFF" },
+        success: { main: "#4D7A46", light: "#6B9D63" },
+        background: { default: "#FAEFEA", paper: "#FFF8F4" },
+        text: { primary: "#341D16", secondary: "#73554A" },
+        divider: "#EDD4C9",
+    },
+    metroSlate: {
+        primary: { main: "#44515C", light: "#5E6D7A", dark: "#2F3840", contrastText: "#FFFFFF" },
+        secondary: { main: "#8A6A3D", contrastText: "#FFFFFF" },
+        success: { main: "#4A7A62", light: "#67A083" },
+        background: { default: "#EEF1F3", paper: "#FAFBFC" },
+        text: { primary: "#1A2127", secondary: "#56616B" },
+        divider: "#D3DAE0",
     },
 };
 
