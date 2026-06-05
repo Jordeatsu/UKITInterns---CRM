@@ -160,7 +160,25 @@ export default function AdvisorLayout() {
             </Box>
 
             {/* Main content */}
-            <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", height: "100vh", overflowY: "auto", minHeight: 0 }}>
+            <Box
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
+                    backgroundImage: (theme) =>
+                        [
+                            `radial-gradient(circle at 50% 42%, transparent 40%, ${alpha(theme.palette.primary.dark, 0.30)} 100%)`,
+                            `radial-gradient(1300px 760px at 12% -10%, ${alpha(theme.palette.primary.main, 0.22)} 0%, transparent 66%)`,
+                            `radial-gradient(980px 620px at 96% 112%, ${alpha(theme.palette.secondary.main, 0.17)} 0%, transparent 60%)`,
+                            `linear-gradient(180deg, ${alpha(theme.palette.common.white, 0.28)} 0%, ${alpha(theme.palette.primary.main, 0.07)} 100%)`,
+                            `repeating-linear-gradient(-32deg, ${alpha(theme.palette.primary.dark, 0.045)} 0, ${alpha(theme.palette.primary.dark, 0.045)} 1px, transparent 1px, transparent 14px)`,
+                        ].join(", "),
+                    backgroundBlendMode: "normal, normal, normal, multiply",
+                    height: "100vh",
+                    overflowY: "auto",
+                    minHeight: 0,
+                }}
+            >
                 <Outlet />
             </Box>
         </Box>
