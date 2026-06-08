@@ -50,7 +50,7 @@ function StatCard({ icon, label, value, tone = "primary" }) {
                 <Box sx={{ color: (theme) => (theme.palette[tone] || theme.palette.primary).main, display: "flex" }}>{icon}</Box>
             </Box>
             <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography variant="h5" fontWeight={700} lineHeight={1.1} noWrap>
+                <Typography variant="h5" fontWeight={700} sx={{ lineHeight: 1.1 }} noWrap>
                     {value ?? "—"}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" mt={0.25} noWrap>
@@ -179,12 +179,14 @@ export default function Dashboard() {
                             setPage(0);
                         }}
                         sx={{ width: 220 }}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon fontSize="small" sx={{ color: "text.disabled" }} />
-                                </InputAdornment>
-                            ),
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon fontSize="small" sx={{ color: "text.disabled" }} />
+                                    </InputAdornment>
+                                ),
+                            },
                         }}
                     />
                     <TextField

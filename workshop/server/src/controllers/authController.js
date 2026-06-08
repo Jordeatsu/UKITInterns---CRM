@@ -50,4 +50,33 @@ function getMe(req, res) {
     res.json({ advisor: req.advisor });
 }
 
-module.exports = { login, getMe };
+/**
+ * PATCH /api/auth/password
+ * Body: { currentPassword, newPassword }
+ * Updates the authenticated advisor password.
+ */
+function changePassword(req, res) {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ error: "Current password and new password are required." });
+    }
+
+    if (newPassword.length < 8) {
+        return res.status(400).json({ error: "New password must be at least 8 characters." });
+    }
+
+    try {
+        const result = authService.changePassword(req.advisor.id, currentPassword, newPassword);
+        if (!result.ok) {
+            return res.status(result.status).json({ error: result.error });
+        }
+
+        res.json({ message: "Password updated successfully." });
+    } catch (err) {
+        console.error("Change password error:", err);
+        res.status(500).json({ error: "Failed to update password." });
+    }
+}
+
+module.exports = { login, getMe, changePassword };

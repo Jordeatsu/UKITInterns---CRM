@@ -8,6 +8,7 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { alpha } from "@mui/material/styles";
 import { useAuth } from "../context/AuthContext";
 
@@ -126,32 +127,53 @@ export default function AdvisorLayout() {
 
                 <Divider sx={{ borderColor: (theme) => alpha(theme.palette.common.white, 0.07), mx: 2 }} />
 
-                {/* Advisor info + logout */}
-                <Box sx={{ px: 2, py: 2, display: "flex", alignItems: "center", gap: 1.5 }}>
+                {/* Advisor info + profile link + logout */}
+                <Box sx={{ px: 2, py: 2, display: "flex", alignItems: "center", gap: 1 }}>
                     <Box
+                        onClick={() => navigate(`/advisor/profile/${advisor?.id}`)}
                         sx={{
-                            width: 34,
-                            height: 34,
-                            borderRadius: "50%",
-                            background: "rgba(255,255,255,0.10)",
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0,
+                            gap: 1.5,
+                            cursor: "pointer",
+                            transition: "all 0.15s",
+                            flex: 1,
+                            minWidth: 0,
+                            "&:hover": {
+                                opacity: 0.8,
+                            },
                         }}
                     >
-                        <PersonIcon sx={{ color: "rgba(255,255,255,0.6)", fontSize: 18 }} />
+                        <Box
+                            sx={{
+                                width: 34,
+                                height: 34,
+                                borderRadius: "50%",
+                                background: "rgba(255,255,255,0.10)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexShrink: 0,
+                            }}
+                        >
+                            <PersonIcon sx={{ color: "rgba(255,255,255,0.6)", fontSize: 18 }} />
+                        </Box>
+                        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                            <Typography variant="body2" fontWeight={600} noWrap sx={{ color: "rgba(255,255,255,0.85)", lineHeight: 1.3 }}>
+                                {advisor?.name || "Advisor"}
+                            </Typography>
+                            <Typography variant="caption" noWrap sx={{ color: "rgba(255,255,255,0.38)", lineHeight: 1 }}>
+                                {advisor?.email || ""}
+                            </Typography>
+                        </Box>
                     </Box>
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                        <Typography variant="body2" fontWeight={600} noWrap sx={{ color: "rgba(255,255,255,0.85)", lineHeight: 1.3 }}>
-                            {advisor?.name || "Advisor"}
-                        </Typography>
-                        <Typography variant="caption" noWrap sx={{ color: "rgba(255,255,255,0.38)", lineHeight: 1 }}>
-                            {advisor?.email || ""}
-                        </Typography>
-                    </Box>
+                    <Tooltip title="View profile">
+                        <IconButton onClick={() => navigate(`/advisor/profile/${advisor?.id}`)} size="small" sx={{ color: "rgba(255,255,255,0.4)", flexShrink: 0, "&:hover": { color: "rgba(255,255,255,0.7)" } }}>
+                            <SettingsIcon fontSize="small" />
+                        </IconButton>
+                    </Tooltip>
                     <Tooltip title="Sign out">
-                        <IconButton onClick={handleLogout} size="small" sx={{ color: "rgba(255,255,255,0.4)", "&:hover": { color: (theme) => theme.palette.error.light } }}>
+                        <IconButton onClick={handleLogout} size="small" sx={{ color: "rgba(255,255,255,0.4)", flexShrink: 0, "&:hover": { color: (theme) => theme.palette.error.light } }}>
                             <LogoutIcon fontSize="small" />
                         </IconButton>
                     </Tooltip>

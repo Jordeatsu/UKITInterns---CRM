@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { authenticate } = require("../middleware/auth");
-const { login, getMe } = require("../controllers/authController");
+const { login, getMe, changePassword } = require("../controllers/authController");
 
 /**
  * Auth routes.
@@ -14,5 +14,8 @@ router.post("/login", login);
 
 // GET  /api/auth/me     — return the currently authenticated advisor
 router.get("/me", authenticate, getMe);
+
+// PATCH /api/auth/password — update current advisor password
+router.patch("/password", authenticate, changePassword);
 
 module.exports = router;
