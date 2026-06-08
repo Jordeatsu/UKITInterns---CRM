@@ -112,10 +112,20 @@ export default function Dashboard() {
                     {[...Array(6)].map((_, idx) => (
                         <Grid key={idx} size={{ xs: 12, sm: 6, md: 4 }}>
                             <SurfaceCard sx={{ p: 3, display: "flex", alignItems: "center", gap: 2 }}>
-                                <Skeleton variant="rounded" animation="wave" width={48} height={48} sx={{ borderRadius: 2, flexShrink: 0, bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12) }} />
+                                <Skeleton
+                                    variant="rounded"
+                                    animation="wave"
+                                    width={48}
+                                    height={48}
+                                    sx={{
+                                        borderRadius: 2,
+                                        flexShrink: 0,
+                                        bgcolor: (theme) => alpha(theme.palette.primary.main, 0.14 + (idx % 3) * 0.03),
+                                    }}
+                                />
                                 <Box sx={{ flex: 1 }}>
-                                    <Skeleton variant="text" animation="wave" width="36%" height={38} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12) }} />
-                                    <Skeleton variant="text" animation="wave" width="64%" height={24} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1) }} />
+                                    <Skeleton variant="text" animation="wave" width="36%" height={38} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2) }} />
+                                    <Skeleton variant="text" animation="wave" width="64%" height={24} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
                                 </Box>
                             </SurfaceCard>
                         </Grid>
