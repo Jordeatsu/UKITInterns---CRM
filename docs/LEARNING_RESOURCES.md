@@ -114,6 +114,8 @@ Material UI is a React component library that provides pre-built, styled compone
 | **[Chip](https://mui.com/material-ui/react-chip/)** | Small badge/tag | Status badges, priority labels |
 | **[Dialog](https://mui.com/material-ui/react-dialog/)** | Modal popup window | Confirmations, forms |
 | **[Alert](https://mui.com/material-ui/react-alert/)** | Notification message (success, error, warning) | Login errors, success messages |
+| **[Snackbar](https://mui.com/material-ui/react-snackbar/)** | Temporary notification popup | Password change success, auto-dismissing messages |
+| **[Skeleton](https://mui.com/material-ui/react-skeleton/)** | Loading placeholder | Profile details loading state |
 
 ### The `sx` Prop
 

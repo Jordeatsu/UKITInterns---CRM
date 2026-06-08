@@ -14,6 +14,7 @@ Your job is to identify the gaps, decide what matters most, and build it.
 - **[Database Documentation](docs/DATABASE.md)** — Schema, seed data, relationships
 - **[API Reference](docs/API.md)** — Endpoints, authentication, environment variables
 - **[Technical Reference](docs/REFERENCE.md)** — Project structure, comment codes, case ordering
+- **[Workflow Guide](docs/WORKFLOW_GUIDE.md)** — Project structure, comment codes, case ordering
 - **[Troubleshooting](docs/TROUBLESHOOTING.md)** — Common issues and fixes
 
 ---
@@ -129,8 +130,18 @@ Full setup instructions in **[SETUP.md](docs/SETUP.md)**.
 
 This project is intended for educational use as part of an intern workshop.
 
+## Profile & Password Management
+
+Advisors can access their profile page at `/advisor/profile/:id` to:
+- View their account details (ID, name, email)
+- Change their password with validation (minimum 8 characters)
+- Select a preferred theme preset — changes are persisted in browser storage
+
+Password changes trigger a success snackbar notification and are validated server-side via bcrypt hashing.
+
 ## Theme Selection
 
 - Theme presets are defined in `workshop/client/src/themePresets.local.js`.
 - The active preset is controlled by `ACTIVE_THEME_PRESET` in each directory's `themePresets.local.js` file.
-- Keep workshop theme choices aligned when comparing behavior, unless you are intentionally testing visual differences.
+- Theme selection is persisted to browser localStorage as `crm_theme_preset` and applies globally across the application.
+- The theme for your version of the application can be changed inside the advisor profile page.
