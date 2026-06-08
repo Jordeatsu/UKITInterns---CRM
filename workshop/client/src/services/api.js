@@ -80,6 +80,24 @@ function authHeaders(token) {
 }
 
 /**
+ * Changes the current advisor password.
+ *
+ * @param {string} token
+ * @param {{currentPassword: string, newPassword: string}} payload
+ * @returns {Promise<any>}
+ */
+export async function changePassword(token, payload) {
+    const res = await fetch(`${BASE_URL}/auth/password`, {
+        method: "PATCH",
+        headers: authHeaders(token),
+        body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Failed to change password");
+    return data;
+}
+
+/**
  * Fetches advisor-visible cases with optional filtering and pagination.
  *
  * @param {string} token

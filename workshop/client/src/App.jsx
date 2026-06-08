@@ -6,6 +6,7 @@ import Login from "./advisor/Login";
 import AdvisorLayout from "./advisor/AdvisorLayout";
 import Dashboard from "./advisor/Dashboard";
 import CaseDetail from "./advisor/CaseDetail";
+import AdvisorProfile from "./advisor/AdvisorProfile";
 import NotFound from "./shared/NotFound";
 import { useAuth } from "./context/AuthContext";
 
@@ -45,6 +46,7 @@ export default function App() {
                     <Route index element={<Navigate to="dashboard" replace />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="cases/:id" element={<CaseDetail />} />
+                    <Route path="profile/:id" element={<AdvisorProfile />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
