@@ -5,13 +5,14 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
-import CircularProgress from "@mui/material/CircularProgress";
+import Skeleton from "@mui/material/Skeleton";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { alpha } from "@mui/material/styles";
 import { getCaseById } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { formatDateTime } from "../utils/format";
@@ -84,8 +85,44 @@ export default function CaseDetail() {
     /** Loading state while the case-detail request is in progress. */
     if (loading) {
         return (
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
-                <CircularProgress />
+            <Box sx={{ p: 4, maxWidth: 1100, mx: "auto" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+                    <Skeleton variant="rounded" animation="wave" width={34} height={34} sx={{ borderRadius: 1.5, bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12) }} />
+                    <Box sx={{ width: "min(420px, 100%)" }}>
+                        <Skeleton variant="text" animation="wave" width="72%" height={34} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12) }} />
+                        <Skeleton variant="text" animation="wave" width="42%" height={24} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1) }} />
+                    </Box>
+                </Box>
+
+                <Grid container spacing={3}>
+                    <Grid size={{ xs: 12, md: 8 }}>
+                        <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: "1px solid rgba(21,101,192,0.10)", mb: 3, boxShadow: "0 4px 20px rgba(21,101,192,0.08)" }}>
+                            <Skeleton variant="text" animation="wave" width={150} height={24} sx={{ mb: 2, bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="65%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="48%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="58%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Divider sx={{ my: 2 }} />
+                            <Skeleton variant="text" animation="wave" width={110} height={26} sx={{ mb: 1, bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="rounded" animation="wave" height={132} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08) }} />
+                        </Paper>
+                    </Grid>
+
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: "1px solid rgba(21,101,192,0.10)", mb: 3, boxShadow: "0 4px 20px rgba(21,101,192,0.08)" }}>
+                            <Skeleton variant="text" animation="wave" width={110} height={24} sx={{ mb: 2, bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="75%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="82%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="54%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                        </Paper>
+
+                        <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: "1px solid rgba(21,101,192,0.10)", boxShadow: "0 4px 20px rgba(21,101,192,0.08)" }}>
+                            <Skeleton variant="text" animation="wave" width={110} height={24} sx={{ mb: 2, bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="70%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="60%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                            <Skeleton variant="text" animation="wave" width="64%" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                        </Paper>
+                    </Grid>
+                </Grid>
             </Box>
         );
     }

@@ -34,11 +34,11 @@ export default function CasesTable({ cases, total, page, rowsPerPage, onPageChan
                 </Box>
                 {[...Array(5)].map((_, idx) => (
                     <Box key={idx} sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1.6fr 0.8fr 0.8fr", gap: 2, py: 1.2 }}>
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
                     </Box>
                 ))}
             </Box>
