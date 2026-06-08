@@ -7,6 +7,7 @@ The base URL for all API routes is `/api`. Routes marked **Public** require no a
 | Method | Path | Auth | Description |
 |---|---|---|---|
 | `POST` | `/api/auth/login` | Public | Log in as an advisor — returns `{ token, advisor }` |
+| `POST` | `/api/auth/change-password` | Protected | Change an advisor's password — requires `{ currentPassword, newPassword }` in request body |
 
 ---
 
