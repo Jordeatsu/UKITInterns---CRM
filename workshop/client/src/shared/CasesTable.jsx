@@ -25,7 +25,14 @@ import { formatDate } from "../utils/format";
 export default function CasesTable({ cases, total, page, rowsPerPage, onPageChange, loading, onRowClick, showAssignedTo = true, emptyText = "No cases found" }) {
     if (loading) {
         return (
-            <Box sx={{ py: 3, px: 3 }}>
+            <Box
+                sx={(theme) => ({
+                    py: 3,
+                    px: 3,
+                    bgcolor: alpha(theme.palette.primary.main, 0.025),
+                    borderTop: `1px solid ${alpha(theme.palette.primary.main, 0.09)}`,
+                })}
+            >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
                     <CircularProgress size={18} />
                     <Typography variant="body2" color="text.secondary">
@@ -34,11 +41,11 @@ export default function CasesTable({ cases, total, page, rowsPerPage, onPageChan
                 </Box>
                 {[...Array(5)].map((_, idx) => (
                     <Box key={idx} sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1.6fr 0.8fr 0.8fr", gap: 2, py: 1.2 }}>
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
-                        <Skeleton variant="rounded" height={26} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.18) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.15) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16) }} />
+                        <Skeleton variant="rounded" animation="wave" height={26} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.13) }} />
                     </Box>
                 ))}
             </Box>

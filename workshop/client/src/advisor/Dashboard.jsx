@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import CircularProgress from "@mui/material/CircularProgress";
+import Skeleton from "@mui/material/Skeleton";
 import Alert from "@mui/material/Alert";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
@@ -73,35 +73,28 @@ export default function Dashboard() {
     const [cases, setCases] = useState([]);
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(0);
-    const [loadingS, setLoadingS] = useState(true);
-    const [loadingC, setLoadingC] = useState(true);
+    const [loadingStats, setLoadingStats] = useState(true);
+    const [loadingCases, setLoadingCases] = useState(true);
     const [error, setError] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
     const [search, setSearch] = useState("");
-    const [nextCase, setNextCase] = useState(null);
-
-    useEffect(() => {
-        getAllCases(token, { excludeClosed: true, limit: 1 })
-            .then(({ cases: all }) => setNextCase(all.find((c) => !c.assigned_to) ?? null))
-            .catch(() => {});
-    }, [token]);
 
     useEffect(() => {
         getDashboardSummary(token)
             .then(setSummary)
             .catch(() => setError("Failed to load dashboard summary."))
-            .finally(() => setLoadingS(false));
+            .finally(() => setLoadingStats(false));
     }, [token]);
 
     useEffect(() => {
-        setLoadingC(true);
+        setLoadingCases(true);
         getAllCases(token, { status: statusFilter || undefined, search: search || undefined, excludeClosed: true, page: page + 1 })
             .then(({ cases: rows, total: t }) => {
                 // TODO Display The Cases
                 // TODO Display Total Cases Count
             })
             .catch(() => setError("Failed to load cases."))
-            .finally(() => setLoadingC(false));
+            .finally(() => setLoadingCases(false));
     }, [token, statusFilter, search, page]);
 
     return (
@@ -114,10 +107,30 @@ export default function Dashboard() {
                 </Alert>
             )}
 
-            {loadingS ? (
-                <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-                    <CircularProgress />
-                </Box>
+            {loadingStats ? (
+                <Grid container spacing={2} sx={{ mb: 4 }}>
+                    {[...Array(6)].map((_, idx) => (
+                        <Grid key={idx} size={{ xs: 12, sm: 6, md: 4 }}>
+                            <SurfaceCard sx={{ p: 3, display: "flex", alignItems: "center", gap: 2 }}>
+                                <Skeleton
+                                    variant="rounded"
+                                    animation="wave"
+                                    width={48}
+                                    height={48}
+                                    sx={{
+                                        borderRadius: 2,
+                                        flexShrink: 0,
+                                        bgcolor: (theme) => alpha(theme.palette.primary.main, 0.14 + (idx % 3) * 0.03),
+                                    }}
+                                />
+                                <Box sx={{ flex: 1 }}>
+                                    <Skeleton variant="text" animation="wave" width="36%" height={38} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2) }} />
+                                    <Skeleton variant="text" animation="wave" width="64%" height={24} sx={{ bgcolor: (theme) => alpha(theme.palette.primary.main, 0.11) }} />
+                                </Box>
+                            </SurfaceCard>
+                        </Grid>
+                    ))}
+                </Grid>
             ) : (
                 <Grid container spacing={2} sx={{ mb: 4 }}>
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
@@ -192,31 +205,8 @@ export default function Dashboard() {
                     </TextField>
                 </Box>
 
-                <CasesTable cases={cases} total={total} page={page} rowsPerPage={25} onPageChange={(_, newPage) => setPage(newPage)} loading={loadingC} onRowClick={(id) => navigate(`/advisor/cases/${id}`)} />
+                <CasesTable cases={cases} total={total} page={page} rowsPerPage={25} onPageChange={(_, newPage) => setPage(newPage)} loading={loadingCases} onRowClick={(id) => navigate(`/advisor/cases/${id}`)} />
             </SurfaceCard>
-
-            {nextCase && (
-                <Box sx={{ position: "fixed", bottom: 32, right: 32, zIndex: 1200 }}>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        endIcon={<ArrowForwardIcon />}
-                        onClick={() => navigate(`/advisor/cases/${nextCase.id}`)}
-                        sx={{
-                            fontWeight: 700,
-                            borderRadius: 2.5,
-                            px: 3,
-                            backgroundImage: (theme) => `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-                            boxShadow: (theme) => `0 4px 24px ${alpha(theme.palette.primary.main, 0.45)}`,
-                            "&:hover": {
-                                boxShadow: (theme) => `0 6px 28px ${alpha(theme.palette.primary.main, 0.55)}`,
-                            },
-                        }}
-                    >
-                        Get Next Case
-                    </Button>
-                </Box>
-            )}
         </Box>
     );
 }
