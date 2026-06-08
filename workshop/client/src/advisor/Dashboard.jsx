@@ -78,13 +78,6 @@ export default function Dashboard() {
     const [error, setError] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
     const [search, setSearch] = useState("");
-    const [nextCase, setNextCase] = useState(null);
-
-    useEffect(() => {
-        getAllCases(token, { excludeClosed: true, limit: 1 })
-            .then(({ cases: all }) => setNextCase(all.find((c) => !c.assigned_to) ?? null))
-            .catch(() => {});
-    }, [token]);
 
     useEffect(() => {
         getDashboardSummary(token)
@@ -194,29 +187,6 @@ export default function Dashboard() {
 
                 <CasesTable cases={cases} total={total} page={page} rowsPerPage={25} onPageChange={(_, newPage) => setPage(newPage)} loading={loadingC} onRowClick={(id) => navigate(`/advisor/cases/${id}`)} />
             </SurfaceCard>
-
-            {nextCase && (
-                <Box sx={{ position: "fixed", bottom: 32, right: 32, zIndex: 1200 }}>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        endIcon={<ArrowForwardIcon />}
-                        onClick={() => navigate(`/advisor/cases/${nextCase.id}`)}
-                        sx={{
-                            fontWeight: 700,
-                            borderRadius: 2.5,
-                            px: 3,
-                            backgroundImage: (theme) => `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-                            boxShadow: (theme) => `0 4px 24px ${alpha(theme.palette.primary.main, 0.45)}`,
-                            "&:hover": {
-                                boxShadow: (theme) => `0 6px 28px ${alpha(theme.palette.primary.main, 0.55)}`,
-                            },
-                        }}
-                    >
-                        Get Next Case
-                    </Button>
-                </Box>
-            )}
         </Box>
     );
 }
