@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import Skeleton from "@mui/material/Skeleton";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -33,7 +35,7 @@ export default function AdvisorProfile() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const [passwordSuccess, setPasswordSuccess] = useState("");
+    const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
     const isOwnProfile = useMemo(() => String(advisor?.id) === String(id), [advisor?.id, id]);
@@ -51,7 +53,6 @@ export default function AdvisorProfile() {
     async function handlePasswordSubmit(e) {
         e.preventDefault();
         setPasswordError("");
-        setPasswordSuccess("");
 
         if (!currentPassword || !newPassword || !confirmPassword) {
             setPasswordError("Please complete all password fields.");
@@ -74,7 +75,7 @@ export default function AdvisorProfile() {
             setCurrentPassword("");
             setNewPassword("");
             setConfirmPassword("");
-            setPasswordSuccess("Password updated successfully.");
+            setShowSuccessSnackbar(true);
         } catch (err) {
             setPasswordError(err.message || "Failed to change password.");
         } finally {
@@ -95,9 +96,19 @@ export default function AdvisorProfile() {
                                 User Details
                             </Typography>
                         </Box>
-                        <TextField label="Advisor ID" value={advisor?.id || ""} disabled sx={{ mb: 2 }} />
-                        <TextField label="Name" value={advisor?.name || ""} disabled sx={{ mb: 2 }} />
-                        <TextField label="Email" value={advisor?.email || ""} disabled />
+                        {!advisor ? (
+                            <>
+                                <Skeleton variant="rounded" height={56} sx={{ mb: 2 }} />
+                                <Skeleton variant="rounded" height={56} sx={{ mb: 2 }} />
+                                <Skeleton variant="rounded" height={56} />
+                            </>
+                        ) : (
+                            <>
+                                <TextField label="Advisor ID" value={advisor.id || ""} disabled sx={{ mb: 2 }} />
+                                <TextField label="Name" value={advisor.name || ""} disabled sx={{ mb: 2 }} />
+                                <TextField label="Email" value={advisor.email || ""} disabled />
+                            </>
+                        )}
                     </SurfaceCard>
                 </Grid>
 
@@ -115,11 +126,6 @@ export default function AdvisorProfile() {
                                 {passwordError}
                             </Alert>
                         )}
-                        {passwordSuccess && (
-                            <Alert severity="success" sx={{ mb: 2 }}>
-                                {passwordSuccess}
-                            </Alert>
-                        )}
 
                         <TextField
                             label="Current password"
@@ -127,9 +133,6 @@ export default function AdvisorProfile() {
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             sx={{ mb: 2 }}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">•</InputAdornment>,
-                            }}
                         />
                         <TextField
                             label="New password"
@@ -138,9 +141,6 @@ export default function AdvisorProfile() {
                             onChange={(e) => setNewPassword(e.target.value)}
                             sx={{ mb: 2 }}
                             helperText="Use at least 8 characters."
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">•</InputAdornment>,
-                            }}
                         />
                         <TextField
                             label="Confirm new password"
@@ -148,9 +148,6 @@ export default function AdvisorProfile() {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             sx={{ mb: 2.5 }}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">•</InputAdornment>,
-                            }}
                         />
 
                         <Button type="submit" variant="contained" disabled={submitting}>
@@ -166,22 +163,34 @@ export default function AdvisorProfile() {
                             </Typography>
                         </Box>
 
-                        <TextField
-                            select
-                            label="Theme preset"
-                            value={themePreset}
-                            onChange={(e) => setThemePreset(e.target.value)}
-                            helperText="Changes apply immediately across the application."
-                        >
-                            {availablePresets.map((preset) => (
-                                <MenuItem key={preset} value={preset}>
-                                    {toPresetLabel(preset)}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                        {!availablePresets.length ? (
+                            <Skeleton variant="rounded" height={56} />
+                        ) : (
+                            <TextField
+                                select
+                                label="Theme preset"
+                                value={themePreset}
+                                onChange={(e) => setThemePreset(e.target.value)}
+                                helperText="Changes apply immediately across the application."
+                            >
+                                {availablePresets.map((preset) => (
+                                    <MenuItem key={preset} value={preset}>
+                                        {toPresetLabel(preset)}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        )}
                     </SurfaceCard>
                 </Grid>
             </Grid>
+
+            <Snackbar
+                open={showSuccessSnackbar}
+                autoHideDuration={4000}
+                onClose={() => setShowSuccessSnackbar(false)}
+                message="Password updated successfully"
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            />
         </Box>
     );
 }
