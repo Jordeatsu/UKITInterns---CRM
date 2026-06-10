@@ -1,14 +1,13 @@
 const jwt = require("jsonwebtoken");
 const authService = require("../services/authService");
 
+const { JWT_SECRET, JWT_EXPIRY } = require("../config");
+
 /**
  * Auth controller.
  *
  * Handles advisor login and returning the current advisor identity from JWT data.
  */
-
-const JWT_SECRET = process.env.JWT_SECRET || "crm_workshop_secret";
-const JWT_EXPIRY = "8h";
 
 /**
  * POST /api/auth/login

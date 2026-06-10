@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-
-const JWT_SECRET = process.env.JWT_SECRET || "crm_workshop_secret";
+const { JWT_SECRET } = require("../config");
 
 /**
  * Authentication middleware module.

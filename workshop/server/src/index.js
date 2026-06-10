@@ -8,6 +8,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const { PORT } = require("./config");
 
 // Import route handlers
 const authRoutes = require("./routes/auth");
@@ -19,7 +20,6 @@ const complaintTypesRoutes = require("./routes/complaintTypes");
 const contactsRoutes = require("./routes/contacts");
 
 const app = express();
-const PORT = process.env.PORT || 5008;
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors());

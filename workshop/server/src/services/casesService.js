@@ -1,4 +1,5 @@
 const db = require("../database");
+const { VALID_STATUSES, VALID_PRIORITIES } = require("../constants");
 
 /**
  * Cases service.
@@ -302,6 +303,13 @@ function getById(id) {
 function update(id, { status, assigned_to, priority, changedBy = "system" }) {
     const existing = db.prepare("SELECT * FROM cases WHERE id = ?").get(id);
     if (!existing) return null;
+
+    if (status !== undefined && !VALID_STATUSES.includes(status)) {
+        throw new Error(`Invalid status: ${status}`);
+    }
+    if (priority !== undefined && !VALID_PRIORITIES.includes(priority)) {
+        throw new Error(`Invalid priority: ${priority}`);
+    }
 
     const newStatus = status !== undefined ? status : existing.status;
     const newAssignedTo = assigned_to !== undefined ? assigned_to : existing.assigned_to;
