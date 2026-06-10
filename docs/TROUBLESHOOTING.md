@@ -52,6 +52,20 @@ Your JWT has expired (they last 24 hours). Log out and log back in.
 
 ---
 
+## Login gets rate-limited for everyone at once
+
+If many users share one public IP in logs, the login rate limiter may be seeing proxy IPs instead of real client IPs.
+
+Set `TRUST_PROXY` in `workshop/server/.env` to match your deployment:
+
+```env
+TRUST_PROXY=1
+```
+
+Use `1` for a single reverse proxy/load balancer hop, `2` for two hops, or `false` for local direct access.
+
+---
+
 ## Database errors on startup
 
 The database file may be corrupted or out of date. See [SETUP.md - Resetting the database](SETUP.md#resetting-the-database) for how to wipe and re-seed it cleanly.

@@ -44,54 +44,6 @@ function submitCase(req, res) {
 }
 
 /**
- * GET /api/cases/track/:referenceNumber
- * Public — customer checks their case status using their reference number.
- * Returns limited fields only (no advisor notes or internal details).
- */
-function trackCase(req, res) {
-    try {
-        const caseData = casesService.getByReference(req.params.referenceNumber);
-        if (!caseData) {
-            return res.status(404).json({
-                error: "Case not found. Please check your reference number.",
-            });
-        }
-        res.json(caseData);
-    } catch (err) {
-        console.error("Error tracking case:", err);
-        res.status(500).json({ error: "Failed to fetch case." });
-    }
-}
-
-/**
- * GET /api/cases/track/by-contact?email=...&name=...
- * Public — customer retrieves all their cases using their name and email.
- * Both values must match the stored contact record (case-insensitive).
- */
-function trackByContact(req, res) {
-    try {
-        const { email, name } = req.query;
-
-        if (!email || !name) {
-            return res.status(400).json({ error: "name and email are required." });
-        }
-
-        const cases = casesService.getByContact(email.trim(), name.trim());
-
-        if (cases === null) {
-            return res.status(404).json({
-                error: "No account found with those details. Please check your name and email address.",
-            });
-        }
-
-        res.json(cases);
-    } catch (err) {
-        console.error("Error tracking cases by contact:", err);
-        res.status(500).json({ error: "Failed to fetch cases." });
-    }
-}
-
-/**
  * GET /api/cases
  * Optional query params: ?status=open  ?search=john
  */
@@ -263,66 +215,8 @@ function removeCommentCode(req, res) {
     }
 }
 
-/**
- * POST /api/cases/:id/consumer-messages
- * Public — consumer sends a message on their case.
- * Body: { content, senderName }
- */
-function addConsumerMessage(req, res) {
-    try {
-        const { content, senderName } = req.body;
-        if (!content || !senderName) {
-            return res.status(400).json({ error: "content and senderName are required." });
-        }
-        const message = casesService.addMessage(req.params.id, "consumer", senderName, content);
-        const existing = casesService.getStatusById(req.params.id);
-        if (existing && existing.status === CASE_STATUS.CLOSED) {
-            casesService.update(req.params.id, { status: CASE_STATUS.REOPENED_BY_CONSUMER, assigned_to: null });
-        }
-        res.status(201).json(message);
-    } catch (err) {
-        console.error("Error adding consumer message:", err);
-        res.status(500).json({ error: "Failed to send message." });
-    }
-}
-
-/**
- * GET /api/cases/:id/messages
- * Fetch all messages for a case.
- */
-function getMessages(req, res) {
-    try {
-        const messages = casesService.getMessages(req.params.id);
-        res.json(messages);
-    } catch (err) {
-        console.error("Error fetching messages:", err);
-        res.status(500).json({ error: "Failed to fetch messages." });
-    }
-}
-
-/**
- * POST /api/cases/:id/messages
- * Add a message to a case.
- * Body: { content, senderType, senderName }
- */
-function addMessage(req, res) {
-    try {
-        const { content, senderType, senderName } = req.body;
-        if (!content || !senderType || !senderName) {
-            return res.status(400).json({ error: "content, senderType, and senderName are required." });
-        }
-        const message = casesService.addMessage(req.params.id, senderType, senderName, content);
-        res.status(201).json(message);
-    } catch (err) {
-        console.error("Error adding message:", err);
-        res.status(500).json({ error: "Failed to add message." });
-    }
-}
-
 module.exports = {
     submitCase,
-    trackCase,
-    trackByContact,
     getAllCases,
     getCaseById,
     updateCase,
@@ -332,8 +226,5 @@ module.exports = {
     addProduct,
     removeProduct,
     addCommentCode,
-    removeCommentCode,
-    getMessages,
-    addMessage,
-    addConsumerMessage,
+    removeCommentCode
 };

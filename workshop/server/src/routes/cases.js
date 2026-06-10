@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { authenticate } = require("../middleware/auth");
-const { submitCase, trackCase, trackByContact, getAllCases, getCaseById, updateCase, getNotes, addNote, getCaseHistory, addProduct, removeProduct, addCommentCode, removeCommentCode, getMessages, addMessage, addConsumerMessage } = require("../controllers/casesController");
+const { submitCase, getAllCases, getCaseById, updateCase, getNotes, addNote, getCaseHistory, addProduct, removeProduct, addCommentCode, removeCommentCode } = require("../controllers/casesController");
 
 /**
  * Cases routes.
@@ -13,19 +13,6 @@ const { submitCase, trackCase, trackByContact, getAllCases, getCaseById, updateC
 
 // POST /api/cases                              — customer submits a new complaint
 router.post("/", submitCase);
-
-// GET  /api/cases/track/by-contact             — customer looks up all their cases by name + email
-// Must be defined before /track/:referenceNumber so Express matches it as a static path
-router.get("/track/by-contact", trackByContact);
-
-// GET  /api/cases/track/:referenceNumber       — customer checks a single case by reference
-router.get("/track/:referenceNumber", trackCase);
-
-// GET  /api/cases/:id/messages                 — public: consumer reads messages on their case
-router.get("/:id/messages", getMessages);
-
-// POST /api/cases/:id/consumer-messages         — public: consumer sends a message
-router.post("/:id/consumer-messages", addConsumerMessage);
 
 // ── Protected routes (valid JWT required) ─────────────────────────────────────
 // router.use applies authenticate to every route defined after this line
@@ -60,8 +47,5 @@ router.post("/:id/comment-codes", addCommentCode);
 
 // DELETE /api/cases/:id/comment-codes/:cccId  — remove a linked comment code
 router.delete("/:id/comment-codes/:cccId", removeCommentCode);
-
-// POST   /api/cases/:id/messages         — add a message to a case (advisor)
-router.post("/:id/messages", addMessage);
 
 module.exports = router;
