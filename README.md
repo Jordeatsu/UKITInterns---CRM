@@ -104,7 +104,7 @@ The app has four deliberate bugs. Before adding anything new, get the existing c
 ## Getting started
 
 1. **[Open setup prerequisites](docs/SETUP.md#prerequisites)** — GitHub account + browser (no local installs)
-2. **[Create a Codespace on teams main branch](docs/SETUP.md#2-create-a-codespace-from-UKIT-Interns-Group-X-Main)**
+2. **[Create a Codespace on teams's' main branch](docs/SETUP.md#2-create-a-codespace-from-UKIT-Interns-Group-X-Main)**
 3. **[Seed the database](docs/SETUP.md#1-seed-the-database-first-run-only)** — creates sample cases and advisor accounts
 4. **[Start in dev mode](docs/SETUP.md#2-start-development-mode)** — open the app from forwarded port `3008`
 

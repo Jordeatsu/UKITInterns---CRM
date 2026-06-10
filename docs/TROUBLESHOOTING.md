@@ -51,8 +51,7 @@ This is expected when a Codespace is stopped or suspended.
 3. Restart services:
 
 ```bash
-cd /workspaces/UKITInterns---CRM/workshop
-bash dev-start.sh
+cd workshop && ./dev-start.sh
 ```
 
 ---
