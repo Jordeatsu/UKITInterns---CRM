@@ -10,6 +10,13 @@ const { VALID_STATUSES, VALID_PRIORITIES } = require("../constants");
 
 const SLA_HOURS = { high: 24, medium: 72, low: 168 };
 
+function createValidationError(message) {
+    const err = new Error(message);
+    err.name = "ValidationError";
+    err.statusCode = 400;
+    return err;
+}
+
 function computeDueDate(createdAt, priority) {
     const hours = SLA_HOURS[priority] ?? 72;
     return new Date(new Date(createdAt).getTime() + hours * 3600 * 1000).toISOString();
@@ -305,10 +312,10 @@ function update(id, { status, assigned_to, priority, changedBy = "system" }) {
     if (!existing) return null;
 
     if (status !== undefined && !VALID_STATUSES.includes(status)) {
-        throw new Error(`Invalid status: ${status}`);
+        throw createValidationError(`Invalid status: ${status}`);
     }
     if (priority !== undefined && !VALID_PRIORITIES.includes(priority)) {
-        throw new Error(`Invalid priority: ${priority}`);
+        throw createValidationError(`Invalid priority: ${priority}`);
     }
 
     const newStatus = status !== undefined ? status : existing.status;

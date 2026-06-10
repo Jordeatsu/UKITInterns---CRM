@@ -148,6 +148,9 @@ function updateCase(req, res) {
         }
         res.json(updated);
     } catch (err) {
+        if (err?.statusCode === 400) {
+            return res.status(400).json({ error: err.message });
+        }
         console.error("Error updating case:", err);
         res.status(500).json({ error: "Failed to update case." });
     }
