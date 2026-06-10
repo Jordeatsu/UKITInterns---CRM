@@ -3,44 +3,43 @@
 ## Team rules
 
 - Use one shared team repository
-- Treat `main` as protected working code
-- Never build directly on `main`
+- Treat `UKIT-Interns-Group-X-Main` as protected working code
+- Never build directly on `UKIT-Interns-Group-X-Main`
 - Build each task on a feature branch
-- Open a pull request (PR) back into `main`
+- Open a pull request (PR) back into `UKIT-Interns-Group-X-Main`
 
 ---
 
 ## Daily workflow in Codespaces
 
-### 1. Start from team `main`
+### 1. Start from team `UKIT-Interns-Group-X-Main`
 
 In your Codespace terminal:
 
 ```bash
-git checkout main
-git pull --rebase origin main
+git checkout UKIT-Interns-Group-X-Main
+git pull --rebase origin UKIT-Interns-Group-X-Main
 ```
 
 ### 2. Create a feature branch
 
 Branch naming format:
 
-- `feature/<name>/<short-feature>`
-- `fix/<name>/<short-fix>`
+- `group-x-feature-<name>-<short-feature>`
+- `group-x-fix-<name>-<short-fix>`
 
 Example:
 
 ```bash
-git checkout -b feature/alex/case-status-chip
+git checkout -b group-1-feature-alex-case-status-chips
 ```
 
 ### 3. Build and test your changes
 
-Run the app in dev mode while you work:
+The application supports hot swapping as long as the application is running in dev mode while you work:
 
 ```bash
-cd /workspaces/UKITInterns---CRM/workshop
-bash dev-start.sh
+cd workshop && ./dev-start.sh
 ```
 
 ### 4. Stage and commit
@@ -74,7 +73,7 @@ git commit -m "add advisor case status filter"
 First push:
 
 ```bash
-git push -u origin feature/alex/case-status-chip
+git push -u origin group-1-feature-alex-case-status-chips
 ```
 
 Next pushes:
@@ -87,17 +86,17 @@ git push
 
 1. Go to your repository on GitHub
 2. Click **Compare & pull request** for your branch
-3. Set base to `main`
+3. Set base to `UKIT-Interns-Group-X-Main`
 4. Add a short summary of what changed
 5. Create the PR
 
-### 7. Keep your branch up to date with `main`
+### 7. Keep your branch up to date with `UKIT-Interns-Group-X-Main`
 
 If your branch is open for a while:
 
 ```bash
 git fetch origin
-git rebase origin/main
+git rebase origin/UKIT-Interns-Group-X-Main
 ```
 
 If rebase succeeds:
@@ -110,18 +109,18 @@ git push --force-with-lease
 
 ## Pulling latest team changes
 
-Use this when someone else's PR has already merged into `main`.
+Use this when someone else's PR has already merged into `UKIT-Interns-Group-X-Main`.
 
 ```bash
-git checkout main
-git pull --rebase origin main
+git checkout UKIT-Interns-Group-X-Main
+git pull --rebase origin UKIT-Interns-Group-X-Main
 ```
 
 Then update your feature branch:
 
 ```bash
-git checkout feature/alex/case-status-chip
-git rebase main
+git checkout group-X-feature-alex-case-status-chip
+git rebase UKIT-Interns-Group-X-Main
 ```
 
 ---
@@ -159,7 +158,7 @@ git push --force-with-lease
 Use explicit strategy:
 
 ```bash
-git pull --rebase origin main
+git pull --rebase origin UKIT-Interns-Group-X-Main
 ```
 
 Set default once:
@@ -178,22 +177,22 @@ git rebase origin/<your-branch>
 git push --force-with-lease
 ```
 
-### Problem: committed to `main` by mistake
+### Problem: committed to `UKIT-Interns-Group-X-Main` by mistake
 
 If not pushed yet:
 
 ```bash
-git checkout -b feature/<name>/<task>
+git checkout -b group-x-feature-<name>-<task>
 ```
 
-Then switch back to `main` and sync it:
+Then switch back to `UKIT-Interns-Group-X-Main` and sync it:
 
 ```bash
-git checkout main
-git pull --rebase origin main
+git checkout UKIT-Interns-Group-X-Main
+git pull --rebase origin UKIT-Interns-Group-X-Main
 ```
 
-If already pushed to `main`, open a follow-up PR that reverts the commit instead of rewriting shared history.
+If already pushed to `UKIT-Interns-Group-X-Main`, open a follow-up PR that reverts the commit instead of rewriting shared history.
 
 ### Problem: forgot to stage a file before commit
 

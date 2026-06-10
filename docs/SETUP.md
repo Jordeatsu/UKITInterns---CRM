@@ -17,15 +17,15 @@ You only need:
 ### 1. Open your team repository
 
 1. Go to your team's GitHub repository in the browser
-2. Confirm you are on the `main` branch before creating your Codespace
+2. Confirm you are on the `UKIT-Interns-Group-X-Main` branch before creating your Codespace
 
-### 2. Create a Codespace from `main`
+### 2. Create a Codespace from `UKIT-Interns-Group-X-Main`
 
 1. Click **Code**
 2. Open the **Codespaces** tab
-3. Click **Create codespace on main**
+3. Click **Create codespace on UKIT-Interns-Group-X-Main**
 
-GitHub will provision a cloud development environment and open VS Code in the browser.
+GitHub will provision a cloud development environment and open VS Code in the browser. Wait for both start up scripts to finish executing.
 
 ### 3. Verify the environment
 
@@ -43,6 +43,8 @@ All required tools are preinstalled in the Codespace.
 
 ## Running the app in Codespaces
 
+The application will run all of these scripts on start up but if for some reason they don't run or fail to run you can execute the following.
+
 ### 1. Seed the database (first run only)
 
 ```bash
@@ -58,8 +60,7 @@ This creates sample contacts, cases, products, complaint types, and advisor acco
 From the `workshop/` directory:
 
 ```bash
-cd /workspaces/UKITInterns---CRM/workshop
-bash dev-start.sh
+cd workshop && ./dev-start.sh
 ```
 
 This starts:
@@ -83,18 +84,17 @@ Recommended URL paths:
 ### 4. Stop the app
 
 ```bash
-cd /workspaces/UKITInterns---CRM/workshop
-bash dev-stop.sh
+cd workshop && ./dev-stop.sh
 ```
 
-If needed, use `bash dev-restart.sh` to restart both services.
+If needed, use `./dev-restart.sh` to restart both services.
 
 ---
 
 ## Working habits for Codespaces
 
-- Start each day by opening your existing Codespace or creating a new one from team `main`
-- Do all coding in feature branches (not `main`)
+- Start each day by opening your existing Codespace or creating a new one from team `UKIT-Interns-Group-X-Main`
+- Do all coding in feature branches (not `UKIT-Interns-Group-X-Main`)
 - Commit and push regularly so your work is safely stored on GitHub
 - Stop unused Codespaces when not working to reduce compute usage
 
@@ -105,9 +105,8 @@ If needed, use `bash dev-restart.sh` to restart both services.
 If data becomes inconsistent, reset and reseed:
 
 ```bash
-rm /workspaces/UKITInterns---CRM/workshop/server/crm.db
-cd /workspaces/UKITInterns---CRM/workshop/server
-npm run seed
+rm workshop/server/crm.db
+cd workshop/server && npm run seed
 ```
 
 This removes all current data and restores the original sample dataset.
