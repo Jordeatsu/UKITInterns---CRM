@@ -29,6 +29,33 @@ Check the terminal running the client — there will be a specific error with a 
 
 ---
 
+## Codespaces app URL not opening
+
+If the app does not open in browser from Codespaces:
+
+1. Confirm services are running with `bash dev-start.sh` from `workshop/`
+2. Open the **Ports** tab in Codespaces
+3. Ensure port `3008` exists and is visible
+4. Open port `3008` in browser
+
+If the port is listed as private and you need to share it with teammates temporarily, change port visibility in the Ports panel.
+
+---
+
+## Codespace stopped and terminals disappeared
+
+This is expected when a Codespace is stopped or suspended.
+
+1. Reopen the same Codespace from the repo's **Code > Codespaces** menu
+2. Open a new terminal
+3. Restart services:
+
+```bash
+cd workshop && ./dev-start.sh
+```
+
+---
+
 ## "Cannot find module" after pulling changes
 
 Someone on your team added a new package. Run `npm install` in both directories to pick it up:
@@ -49,6 +76,20 @@ In production mode (`start.sh`), the client is a pre-built static bundle — it 
 ## "Failed to load case" or 401 errors everywhere
 
 Your JWT has expired (they last 24 hours). Log out and log back in.
+
+---
+
+## Login gets rate-limited for everyone at once
+
+If many users share one public IP in logs, the login rate limiter may be seeing proxy IPs instead of real client IPs.
+
+Set `TRUST_PROXY` in `workshop/server/.env` to match your deployment:
+
+```env
+TRUST_PROXY=1
+```
+
+Use `1` for a single reverse proxy/load balancer hop, `2` for two hops, or `false` for local direct access.
 
 ---
 

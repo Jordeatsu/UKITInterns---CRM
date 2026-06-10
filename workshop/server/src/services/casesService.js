@@ -83,88 +83,6 @@ function submit({ name, email, phone, subject, description, complaint_type_id, p
     return transaction();
 }
 
-/**
- * Fetch limited case info by reference number for the public tracking page.
- * Does not expose advisor notes or internal fields.
- */
-function getByReference(referenceNumber) {
-    return (
-        db
-            .prepare(
-                `
-    SELECT
-      c.id,
-      c.reference_number,
-      c.status,
-      c.subject,
-      c.description,
-      c.priority,
-      c.assigned_to,
-      c.created_at,
-      c.updated_at,
-      co.name  AS contact_name,
-      ct.label AS complaint_type_label,
-      a.name   AS assigned_to_name,
-      GROUP_CONCAT(p.name, ', ') AS product_names
-    FROM cases c
-    JOIN contacts co ON co.id = c.contact_id
-    LEFT JOIN complaint_types  ct ON ct.id = c.complaint_type_id
-    LEFT JOIN case_products    cp ON cp.case_id = c.id
-    LEFT JOIN products          p ON p.id = cp.product_id
-    LEFT JOIN advisors          a ON a.id = c.assigned_to
-    WHERE c.reference_number = ?
-    GROUP BY c.id
-  `,
-            )
-            .get(referenceNumber) || null
-    );
-}
-
-/**
- * Return all cases for a contact identified by email + name.
- * Both values are compared case-insensitively. Returns null when no
- * matching contact exists (so the caller can 404 vs returning an empty array).
- */
-function getByContact(email, name) {
-    const contact = db.prepare("SELECT * FROM contacts WHERE LOWER(email) = LOWER(?)").get(email);
-
-    if (!contact) return null;
-
-    if (name && contact.name.toLowerCase().trim() !== name.toLowerCase().trim()) {
-        return null;
-    }
-
-    return db
-        .prepare(
-            `
-    SELECT
-      c.id,
-      c.reference_number,
-      c.status,
-      c.subject,
-      c.description,
-      c.priority,
-      c.assigned_to,
-      c.created_at,
-      c.updated_at,
-      co.name  AS contact_name,
-      ct.label AS complaint_type_label,
-      a.name   AS assigned_to_name,
-      GROUP_CONCAT(p.name, ', ') AS product_names
-    FROM cases c
-    JOIN contacts co ON co.id = c.contact_id
-    LEFT JOIN complaint_types  ct ON ct.id = c.complaint_type_id
-    LEFT JOIN case_products    cp ON cp.case_id = c.id
-    LEFT JOIN products          p ON p.id = cp.product_id
-    LEFT JOIN advisors          a ON a.id = c.assigned_to
-    WHERE c.contact_id = ?
-    GROUP BY c.id
-    ORDER BY c.created_at DESC
-  `,
-        )
-        .all(contact.id);
-}
-
 // ── Protected (advisor-facing) ────────────────────────────────────────────────
 
 /**
@@ -447,22 +365,6 @@ function removeProduct(caseProductId) {
 }
 
 /**
- * Get all messages for a case, oldest first.
- */
-function getMessages(caseId) {
-    return db.prepare("SELECT * FROM case_messages WHERE case_id = ? ORDER BY created_at ASC").all(caseId);
-}
-
-/**
- * Add a message to a case.
- */
-function addMessage(caseId, senderType, senderName, content) {
-    const result = db.prepare("INSERT INTO case_messages (case_id, sender_type, sender_name, content) VALUES (?, ?, ?, ?)").run(caseId, senderType, senderName, content);
-
-    return db.prepare("SELECT * FROM case_messages WHERE id = ?").get(result.lastInsertRowid);
-}
-
-/**
  * Get full audit history for a case, newest changes first.
  */
 function getHistory(caseId) {
@@ -471,8 +373,6 @@ function getHistory(caseId) {
 
 module.exports = {
     submit,
-    getByReference,
-    getByContact,
     getAll,
     getById,
     getStatusById,
@@ -483,7 +383,5 @@ module.exports = {
     removeCommentCode,
     addProduct,
     removeProduct,
-    getMessages,
-    addMessage,
     getHistory,
 };
