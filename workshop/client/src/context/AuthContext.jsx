@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback } from "react";
+import { STORAGE_KEYS } from "../utils/storage";
 
 /**
  * Authentication context for advisor session state.
@@ -16,10 +17,10 @@ const AuthContext = createContext(null);
  * @returns {JSX.Element}
  */
 export function AuthProvider({ children }) {
-    const [token, setToken] = useState(() => localStorage.getItem("advisor_token"));
+    const [token, setToken] = useState(() => localStorage.getItem(STORAGE_KEYS.ADVISOR_TOKEN));
     const [advisor, setAdvisor] = useState(() => {
         try {
-            return JSON.parse(localStorage.getItem("advisor_user"));
+            return JSON.parse(localStorage.getItem(STORAGE_KEYS.ADVISOR_USER));
         } catch {
             return null;
         }
@@ -33,8 +34,8 @@ export function AuthProvider({ children }) {
      * @returns {void}
      */
     const login = useCallback((newToken, advisorData) => {
-        localStorage.setItem("advisor_token", newToken);
-        localStorage.setItem("advisor_user", JSON.stringify(advisorData));
+        localStorage.setItem(STORAGE_KEYS.ADVISOR_TOKEN, newToken);
+        localStorage.setItem(STORAGE_KEYS.ADVISOR_USER, JSON.stringify(advisorData));
         setToken(newToken);
         setAdvisor(advisorData);
     }, []);
@@ -45,8 +46,8 @@ export function AuthProvider({ children }) {
      * @returns {void}
      */
     const logout = useCallback(() => {
-        localStorage.removeItem("advisor_token");
-        localStorage.removeItem("advisor_user");
+        localStorage.removeItem(STORAGE_KEYS.ADVISOR_TOKEN);
+        localStorage.removeItem(STORAGE_KEYS.ADVISOR_USER);
         setToken(null);
         setAdvisor(null);
     }, []);

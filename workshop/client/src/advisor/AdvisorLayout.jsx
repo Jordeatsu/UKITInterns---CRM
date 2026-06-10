@@ -11,6 +11,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { alpha } from "@mui/material/styles";
 import { useAuth } from "../context/AuthContext";
+import { SIDEBAR_WIDTH } from "../constants/ui";
 
 /**
  * Shared layout shell for advisor routes.
@@ -19,7 +20,7 @@ import { useAuth } from "../context/AuthContext";
  * and an Outlet where nested advisor pages are displayed.
  */
 
-const SIDEBAR_W = 256;
+const SIDEBAR_W = SIDEBAR_WIDTH;
 
 /**
  * Sidebar navigation items for advisor pages.

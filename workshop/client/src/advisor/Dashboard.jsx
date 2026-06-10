@@ -28,6 +28,7 @@ import { useAuth } from "../context/AuthContext";
 import CasesTable from "../shared/CasesTable";
 import PageHeader from "../shared/PageHeader";
 import SurfaceCard from "../shared/SurfaceCard";
+import { ROWS_PER_PAGE } from "../constants/ui";
 
 function StatCard({ icon, label, value, tone = "primary" }) {
     return (
@@ -207,7 +208,7 @@ export default function Dashboard() {
                     </TextField>
                 </Box>
 
-                <CasesTable cases={cases} total={total} page={page} rowsPerPage={25} onPageChange={(_, newPage) => setPage(newPage)} loading={loadingCases} onRowClick={(id) => navigate(`/advisor/cases/${id}`)} />
+                <CasesTable cases={cases} total={total} page={page} rowsPerPage={ROWS_PER_PAGE} onPageChange={(_, newPage) => setPage(newPage)} loading={loadingCases} onRowClick={(id) => navigate(`/advisor/cases/${id}`)} />
             </SurfaceCard>
         </Box>
     );

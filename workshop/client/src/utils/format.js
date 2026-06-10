@@ -36,3 +36,15 @@ export function fmtDateLong(iso) {
     if (!iso) return "—";
     return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 }
+
+/**
+ * Converts a camelCase key into a human-readable Title Case label.
+ *
+ * @param {string} key
+ * @returns {string}
+ */
+export function toPresetLabel(key) {
+    return key
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/^./, (char) => char.toUpperCase());
+}
