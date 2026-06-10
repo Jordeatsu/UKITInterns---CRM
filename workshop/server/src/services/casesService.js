@@ -1,4 +1,5 @@
 const db = require("../database");
+const { VALID_STATUSES, VALID_PRIORITIES } = require("../constants");
 
 /**
  * Cases service.
@@ -8,6 +9,13 @@ const db = require("../database");
  */
 
 const SLA_HOURS = { high: 24, medium: 72, low: 168 };
+
+function createValidationError(message) {
+    const err = new Error(message);
+    err.name = "ValidationError";
+    err.statusCode = 400;
+    return err;
+}
 
 function computeDueDate(createdAt, priority) {
     const hours = SLA_HOURS[priority] ?? 72;
@@ -296,12 +304,26 @@ function getById(id) {
 }
 
 /**
+ * Return minimal case status data for lightweight checks.
+ */
+function getStatusById(id) {
+    return db.prepare("SELECT id, status FROM cases WHERE id = ?").get(id) || null;
+}
+
+/**
  * Update one or more fields on a case.
  * Only the fields that are explicitly passed (not undefined) are changed.
  */
 function update(id, { status, assigned_to, priority, changedBy = "system" }) {
     const existing = db.prepare("SELECT * FROM cases WHERE id = ?").get(id);
     if (!existing) return null;
+
+    if (status !== undefined && !VALID_STATUSES.includes(status)) {
+        throw createValidationError(`Invalid status: ${status}`);
+    }
+    if (priority !== undefined && !VALID_PRIORITIES.includes(priority)) {
+        throw createValidationError(`Invalid priority: ${priority}`);
+    }
 
     const newStatus = status !== undefined ? status : existing.status;
     const newAssignedTo = assigned_to !== undefined ? assigned_to : existing.assigned_to;
@@ -453,6 +475,7 @@ module.exports = {
     getByContact,
     getAll,
     getById,
+    getStatusById,
     update,
     getNotes,
     addNote,

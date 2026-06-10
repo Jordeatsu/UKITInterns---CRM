@@ -1,4 +1,5 @@
 const casesService = require("../services/casesService");
+const { CASE_STATUS } = require("../constants");
 
 /**
  * Cases controller.
@@ -102,8 +103,8 @@ function getAllCases(req, res) {
             search,
             assignedTo: assigned_to || undefined,
             excludeClosed: exclude_closed === "true",
-            page: page ? parseInt(page, 10) : 1,
-            limit: limit ? parseInt(limit, 10) : 25,
+            page: Math.max(1, parseInt(page, 10) || 1),
+            limit: Math.min(100, Math.max(1, parseInt(limit, 10) || 25)),
         });
         res.json(result);
     } catch (err) {
@@ -147,6 +148,9 @@ function updateCase(req, res) {
         }
         res.json(updated);
     } catch (err) {
+        if (err?.statusCode === 400) {
+            return res.status(400).json({ error: err.message });
+        }
         console.error("Error updating case:", err);
         res.status(500).json({ error: "Failed to update case." });
     }
@@ -271,7 +275,10 @@ function addConsumerMessage(req, res) {
             return res.status(400).json({ error: "content and senderName are required." });
         }
         const message = casesService.addMessage(req.params.id, "consumer", senderName, content);
-        casesService.update(req.params.id, { status: "reopened_by_consumer", assigned_to: null });
+        const existing = casesService.getStatusById(req.params.id);
+        if (existing && existing.status === CASE_STATUS.CLOSED) {
+            casesService.update(req.params.id, { status: CASE_STATUS.REOPENED_BY_CONSUMER, assigned_to: null });
+        }
         res.status(201).json(message);
     } catch (err) {
         console.error("Error adding consumer message:", err);

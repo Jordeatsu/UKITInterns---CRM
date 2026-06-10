@@ -1,5 +1,5 @@
 const Database = require("better-sqlite3");
-const path = require("path");
+const { DB_PATH } = require("./config");
 
 /**
  * Database bootstrap module.
@@ -7,9 +7,6 @@ const path = require("path");
  * Opens the SQLite database, enables foreign keys, creates required tables,
  * and applies lightweight schema migrations for existing databases.
  */
-
-// Resolve the database file path — stored in the server root, not inside src/
-const DB_PATH = process.env.DB_PATH ? path.resolve(process.env.DB_PATH) : path.join(__dirname, "..", "crm.db");
 
 // Open (or create) the SQLite database file
 const db = new Database(DB_PATH);

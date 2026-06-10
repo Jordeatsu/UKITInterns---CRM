@@ -21,6 +21,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import { alpha } from "@mui/material/styles";
 import { getProducts, getComplaintTypes, submitCase } from "../services/api";
 import { EMAIL_RE } from "../utils/validation";
+import StepSection from "../shared/StepSection";
 
 const EMPTY_FORM = {
     name: "",
@@ -29,40 +30,6 @@ const EMPTY_FORM = {
     complaint_type_id: "",
     description: "",
 };
-
-function StepSection({ number, icon, title, children }) {
-    return (
-        <Box sx={{ mb: 4 }}>
-            <Box sx={{ display: "flex", alignItems: "center", mb: 2.5, gap: 1.5 }}>
-                <Box
-                    sx={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: "50%",
-                        background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "white",
-                        fontWeight: 700,
-                        fontSize: 14,
-                        flexShrink: 0,
-                        boxShadow: (theme) => `0 2px 8px ${alpha(theme.palette.primary.main, 0.35)}`,
-                    }}
-                >
-                    {number}
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Box sx={{ color: "primary.main", display: "flex" }}>{icon}</Box>
-                    <Typography variant="subtitle1" fontWeight={700} color="text.primary">
-                        {title}
-                    </Typography>
-                </Box>
-            </Box>
-            {children}
-        </Box>
-    );
-}
 
 /**
  * Renders the consumer case submission form with multi-step flow.

@@ -16,6 +16,7 @@ import { alpha } from "@mui/material/styles";
 import { getCaseById } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { formatDateTime } from "../utils/format";
+import { SectionHeading, MetaRow } from "../shared/CaseDetailSection";
 
 /**
  * Advisor case detail page.
@@ -23,40 +24,6 @@ import { formatDateTime } from "../utils/format";
  * Reads the case ID from route params, loads the matching case from the API,
  * and renders grouped sections for details, contact info, and metadata.
  */
-
-/**
- * Reusable heading for card sections in the case detail view.
- *
- * @param {{icon: import("react").ReactNode, children: import("react").ReactNode}} props
- * @returns {JSX.Element}
- */
-function SectionHeading({ icon, children }) {
-    return (
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-            <Box sx={{ color: "primary.main", display: "flex", opacity: 0.7 }}>{icon}</Box>
-            <Typography variant="subtitle2" fontWeight={700} color="text.secondary" textTransform="uppercase" letterSpacing={0.5} fontSize="0.72rem">
-                {children}
-            </Typography>
-        </Box>
-    );
-}
-
-/**
- * Reusable two-column metadata row.
- *
- * @param {{label: string, children: import("react").ReactNode}} props
- * @returns {JSX.Element}
- */
-function MetaRow({ label, children }) {
-    return (
-        <Box sx={{ display: "flex", gap: 1, mb: 1.5, alignItems: "flex-start" }}>
-            <Typography variant="body2" color="text.secondary" sx={{ minWidth: 120, flexShrink: 0 }}>
-                {label}
-            </Typography>
-            <Box sx={{ flexGrow: 1 }}>{children}</Box>
-        </Box>
-    );
-}
 
 /**
  * Loads and displays a single case for advisor review.

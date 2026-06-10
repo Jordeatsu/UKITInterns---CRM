@@ -18,12 +18,8 @@ import PageHeader from "../shared/PageHeader";
 import { useAuth } from "../context/AuthContext";
 import { useAppTheme } from "../context/ThemeContext";
 import { changePassword } from "../services/api";
-
-function toPresetLabel(key) {
-    return key
-        .replace(/([a-z])([A-Z])/g, "$1 $2")
-        .replace(/^./, (char) => char.toUpperCase());
-}
+import { toPresetLabel } from "../utils/format";
+import { MIN_PASSWORD_LENGTH, SNACKBAR_DURATION } from "../constants/ui";
 
 export default function AdvisorProfile() {
     const { id } = useParams();
@@ -59,8 +55,8 @@ export default function AdvisorProfile() {
             return;
         }
 
-        if (newPassword.length < 8) {
-            setPasswordError("New password must be at least 8 characters.");
+        if (newPassword.length < MIN_PASSWORD_LENGTH) {
+            setPasswordError(`New password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
             return;
         }
 
@@ -186,7 +182,7 @@ export default function AdvisorProfile() {
 
             <Snackbar
                 open={showSuccessSnackbar}
-                autoHideDuration={4000}
+                autoHideDuration={SNACKBAR_DURATION}
                 onClose={() => setShowSuccessSnackbar(false)}
                 message="Password updated successfully"
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
