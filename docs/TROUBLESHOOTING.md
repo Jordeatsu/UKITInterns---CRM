@@ -29,6 +29,34 @@ Check the terminal running the client — there will be a specific error with a 
 
 ---
 
+## Codespaces app URL not opening
+
+If the app does not open in browser from Codespaces:
+
+1. Confirm services are running with `bash dev-start.sh` from `workshop/`
+2. Open the **Ports** tab in Codespaces
+3. Ensure port `3008` exists and is visible
+4. Open port `3008` in browser
+
+If the port is listed as private and you need to share it with teammates temporarily, change port visibility in the Ports panel.
+
+---
+
+## Codespace stopped and terminals disappeared
+
+This is expected when a Codespace is stopped or suspended.
+
+1. Reopen the same Codespace from the repo's **Code > Codespaces** menu
+2. Open a new terminal
+3. Restart services:
+
+```bash
+cd /workspaces/UKITInterns---CRM/workshop
+bash dev-start.sh
+```
+
+---
+
 ## "Cannot find module" after pulling changes
 
 Someone on your team added a new package. Run `npm install` in both directories to pick it up:

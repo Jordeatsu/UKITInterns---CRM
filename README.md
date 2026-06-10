@@ -8,7 +8,7 @@ Your job is to identify the gaps, decide what matters most, and build it.
 
 ## Quick links
 
-- **[Setup Guide](docs/SETUP.md)** — Prerequisites, installation, running the app
+- **[Setup Guide](docs/SETUP.md)** — Codespaces setup, running the app, resetting the database
 - **[Learning Resources](docs/LEARNING_RESOURCES.md)** — React & Material UI quick reference for beginners
 - **[Working as a Team](docs/TEAMWORK.md)** — Branching, commits, pull requests, merge conflicts
 - **[Database Documentation](docs/DATABASE.md)** — Schema, seed data, relationships
@@ -103,10 +103,10 @@ The app has four deliberate bugs. Before adding anything new, get the existing c
 
 ## Getting started
 
-1. **[Install prerequisites](docs/SETUP.md#prerequisites)** — Node.js, VS Code, Git, GitHub Desktop (optional)
-2. **[Fork and clone the repo](docs/SETUP.md#on-the-day)** — one person forks, everyone clones
-3. **[Seed the database](docs/SETUP.md#1-seed-the-database-with-sample-data)** — creates sample cases and advisor accounts
-4. **[Start the app](docs/SETUP.md#2-start-the-application-production)** — runs on `http://localhost:3008`
+1. **[Open setup prerequisites](docs/SETUP.md#prerequisites)** — GitHub account + browser (no local installs)
+2. **[Create a Codespace on team main](docs/SETUP.md#2-create-a-codespace-from-main)**
+3. **[Seed the database](docs/SETUP.md#1-seed-the-database-first-run-only)** — creates sample cases and advisor accounts
+4. **[Start in dev mode](docs/SETUP.md#2-start-development-mode)** — open the app from forwarded port `3008`
 
 Login credentials: `alice@crm.com` / `bob@crm.com` / `carol@crm.com` — all use password `password123`.
 
@@ -116,7 +116,7 @@ Full setup instructions in **[SETUP.md](docs/SETUP.md)**.
 
 ## Documentation
 
-- **[SETUP.md](docs/SETUP.md)** — Prerequisites, installation, running the app, resetting the database
+- **[SETUP.md](docs/SETUP.md)** — Codespaces prerequisites, running the app, resetting the database
 - **[LEARNING_RESOURCES.md](docs/LEARNING_RESOURCES.md)** — React & Material UI quick reference, common patterns, helpful links
 - **[TEAMWORK.md](docs/TEAMWORK.md)** — Working as a team, branches, commits, pull requests, merge conflicts, presentation
 - **[DATABASE.md](docs/DATABASE.md)** — Complete database schema, seed data, entity relationships
