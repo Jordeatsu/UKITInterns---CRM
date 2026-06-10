@@ -17,4 +17,4 @@ const DB_PATH = process.env.DB_PATH
 
 const PORT = process.env.PORT || 5008;
 
-module.exports = { JWT_SECRET, JWT_EXPIRY, DB_PATH, PORT, ALLOWED_ORIGINS };
+module.exports = { JWT_SECRET, JWT_EXPIRY, DB_PATH, PORT };
