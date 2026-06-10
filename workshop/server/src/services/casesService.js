@@ -304,6 +304,13 @@ function getById(id) {
 }
 
 /**
+ * Return minimal case status data for lightweight checks.
+ */
+function getStatusById(id) {
+    return db.prepare("SELECT id, status FROM cases WHERE id = ?").get(id) || null;
+}
+
+/**
  * Update one or more fields on a case.
  * Only the fields that are explicitly passed (not undefined) are changed.
  */
@@ -468,6 +475,7 @@ module.exports = {
     getByContact,
     getAll,
     getById,
+    getStatusById,
     update,
     getNotes,
     addNote,

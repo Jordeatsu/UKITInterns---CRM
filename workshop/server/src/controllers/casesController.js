@@ -275,7 +275,7 @@ function addConsumerMessage(req, res) {
             return res.status(400).json({ error: "content and senderName are required." });
         }
         const message = casesService.addMessage(req.params.id, "consumer", senderName, content);
-        const existing = casesService.getById(req.params.id);
+        const existing = casesService.getStatusById(req.params.id);
         if (existing && existing.status === CASE_STATUS.CLOSED) {
             casesService.update(req.params.id, { status: CASE_STATUS.REOPENED_BY_CONSUMER, assigned_to: null });
         }

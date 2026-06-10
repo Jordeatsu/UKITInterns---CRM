@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const { PORT } = require("./config");
+const { PORT, TRUST_PROXY } = require("./config");
 
 // Import route handlers
 const authRoutes = require("./routes/auth");
@@ -20,6 +20,19 @@ const complaintTypesRoutes = require("./routes/complaintTypes");
 const contactsRoutes = require("./routes/contacts");
 
 const app = express();
+
+if (TRUST_PROXY !== undefined) {
+    const value = TRUST_PROXY.trim().toLowerCase();
+    if (value === "true") {
+        app.set("trust proxy", true);
+    } else if (value === "false") {
+        app.set("trust proxy", false);
+    } else if (!Number.isNaN(Number(TRUST_PROXY))) {
+        app.set("trust proxy", Number(TRUST_PROXY));
+    } else {
+        app.set("trust proxy", TRUST_PROXY);
+    }
+}
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors());
