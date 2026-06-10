@@ -5,11 +5,11 @@ const { authenticate } = require("../middleware/auth");
 const { login, getMe, changePassword } = require("../controllers/authController");
 
 const loginLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 10,
-	standardHeaders: true,
-	legacyHeaders: false,
-	message: { error: "Too many login attempts. Please try again later." },
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many login attempts. Please try again later." },
 });
 
 /**
